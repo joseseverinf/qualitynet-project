@@ -15,9 +15,14 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Debe ingresar la clave del usuario'],
-        minlength: [6, 'La clave debe tener mínimo 6 caracteres']
+        minlength: [8, 'La clave debe tener mínimo 6 caracteres']
+    },
+    status: {
+        type: Boolean,
+        required: [true, 'Se debe indicar si el registro se creara como activado (true) o desactivado (false)'],
     }
-}, { timestamps: true });
+}, 
+{ timestamps: { createdAt: true, updatedAt: true } });
 
 UserSchema.virtual('confirmPassword')
     .get( () => this._confirmPassword )

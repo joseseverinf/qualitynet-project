@@ -44,11 +44,11 @@ module.exports.login = (req, res) => {
                             res.cookie("usertoken", token, secret, { httpOnly: true })
                                 .json({ ok: true, message: 'Usuario autenticado correctamente', data: payload });
                         } else {
-                            res.json({ ok: false, message: '1.- Usuario o clave inválido' });
+                            res.json({ ok: false, message: 'Ha ocurrido un problema al autenticar al usuario' });
                         }
                     })
             } else {
-                res.json({ ok: false, message: '2.- Usuario o clave inválido' });
+                res.json({ ok: false, message: 'Usuario no encontrado o Clave incorrecta' });
             }
-        }).catch(error => res.json({ ok: false, message: '3.- Usuario o clave inválido' }));
+        }).catch(error => res.json({ ok: false, message: 'Credenciales incorrectas' }));
 }

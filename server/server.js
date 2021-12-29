@@ -14,7 +14,12 @@ app.use( express.json() );
 app.use( express.urlencoded( {extended: true }));
 
 require('./routes/user.routes')(app);
-require('./routes/cliente.routes')(app);
-require('./routes/estufa.routes')(app);
+require('./routes/client.routes')(app);
+require('./routes/stove.routes')(app);
+require('./routes/sale.routes')(app);
+require('./routes/maintenance.routes')(app);
+require('./routes/log.routes')(app);
 
-app.listen(port, () => console.log("QualityNET Server Iniciado"));
+const server = app.listen(port, () => {
+    console.log(`App QualityNET running on port ${port}`);
+  });
