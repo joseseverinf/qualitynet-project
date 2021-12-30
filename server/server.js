@@ -21,5 +21,5 @@ require('./routes/maintenance.routes')(app);
 require('./routes/log.routes')(app);
 
 const server = app.listen(port, () => {
-    console.log(`App QualityNET running on port ${port}`);
-  });
+  console.log(`App QualityNET running on port ${port}`);
+});

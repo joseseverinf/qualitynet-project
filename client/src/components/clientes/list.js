@@ -1,5 +1,8 @@
-import { forwardRef, useRef, useState } from 'react'
-//import MaterialTable from "material-table";
+import { createRef, forwardRef, useEffect, useRef, useState } from 'react';
+
+import axios from 'axios';
+import Swal from "sweetalert2";
+
 import MaterialTable from 'material-table';
 import { Col } from 'reactstrap';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -40,37 +43,95 @@ const tableIcons = {
     Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+    RefreshData: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const ClienteList = () => {
+const clientInitialState = {
+    firstName: '',
+    lastName: '',
+    rut: '',
+    email: '',
+    phone: '',
+    agreement: false,
+    discount: 0,
+    status: true
+}
+
+
+const ClienteList = ({ clientes, setClientes }) => {
     const nodeRef = useRef(null);
-    //const [data, setData] = useState(originalData);
+    const tableRef = createRef();
+
+    useEffect(() => {
+        console.log(clientes);
+    }, []);
+
 
     const [columns, setColumns] = useState([
         { field: "id", hidden: true },
-        { title: 'Name', field: 'name' },
-        { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
-        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-        {
-            title: 'Birth Place',
-            field: 'birthCity',
-            lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-        },
+        { title: 'Nombre', field: 'firstName' },
+        { title: 'Apellido', field: 'lastName' },
+        { title: 'Rut', field: 'rut' },
+        { title: 'Email', field: 'email' },
+        { title: 'Teléfono', field: 'phone' },
+        { title: 'Convenio', field: 'agreement' },
+        { title: 'Descuento', field: 'discount' },
+        { field: 'status', hidden: true },
     ]);
 
     const [data, setData] = useState([
-        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-        { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
+        {
+            id: 1,
+            firstName: 'Mehmet',
+            lastName: 'Baran',
+            rut: '261688719',
+            email: 'carlos880425@gmail.com',
+            phone : '934466718',
+            agreement: false,
+            discount: 0,
+            status: true
+        }
     ]);
 
     return (
         <Col>
             <MaterialTable
                 nodeRef={nodeRef}
+                tableRef={tableRef}
                 title=""
                 columns={columns}
-                data={data}
+                //data={data}
+                data={query =>
+                    new Promise((resolve, reject) => {
+                        axios.get('/api/clientes')
+                            .then(resp => {
+                                console.log(resp);
+                                //setClientes(resp.data.data)
+                                resolve({
+                                    data: resp.data.data,
+                                    page: resp.data.page - 1,
+                                    totalCount: resp.data.data.length,
+                                })
+                            })
+                            .catch(error => {
+                                Swal.fire('Error', error.message, 'error');
+                                resolve();
+                            });
+                    //   let url = 'https://reqres.in/api/users?'
+                    //   url += 'per_page=' + query.pageSize
+                    //   url += '&page=' + (query.page + 1)
+                    //   fetch(url)
+                    //     .then(response => response.json())
+                    //     .then(result => {
+                    //       resolve({
+                    //         data: result.data,
+                    //         page: result.page - 1,
+                    //         totalCount: result.total,
+                    //       })
+                    //     })
+                    })
+                  }
                 icons={tableIcons}
                 // actions={[
                 //     {
@@ -98,7 +159,7 @@ const ClienteList = () => {
                         searchTooltip: "Buscar",
                         searchPlaceholder: "Buscar"
                     },
-                    header:{
+                    header: {
                         actions: "Acciones"
                     },
                     body: {
@@ -130,6 +191,7 @@ const ClienteList = () => {
                     }
                 }}
                 options={{
+                    addRowPosition: 'first',
                     actionsColumnIndex: -1,
                     searchFieldAlignment: 'left',
                     exportButton: {
@@ -142,10 +204,26 @@ const ClienteList = () => {
                 editable={{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                setData([...data, newData]);
-                                resolve();
-                            }, 1000)
+                            newData.status = true;
+                            console.log(newData);
+                            axios.post('/api/clientes', newData)
+                                .then(resp => {
+                                    console.log(resp);
+                                    if (resp.data.ok) {
+                                        setClientes([
+                                            ...clientes,
+                                            resp.data.data
+                                        ]);
+                                    } else {
+                                        Swal.fire('Error al crear el cliente', resp.data.message, 'error');
+                                    }
+                                    //setData([...data, newData]);
+                                    resolve();
+                                }).catch(error => {
+                                    console.log(error);
+                                    Swal.fire('Error al crear el cliente', error?.message, 'error');
+                                    resolve();
+                                });
                         }),
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
@@ -183,6 +261,14 @@ const ClienteList = () => {
                         </div>
                     )
                 }}
+                actions={[
+                    {
+                      icon: 'refresh',
+                      tooltip: 'Refresh Data',
+                      isFreeAction: true,
+                      onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+                    }
+                  ]}
             />
         </Col>
     )
