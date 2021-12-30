@@ -25,6 +25,9 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddCircleOutlineIcon color={'primary'} ref={ref} />),
@@ -33,7 +36,7 @@ const tableIcons = {
     Delete: forwardRef((props, ref) => <DeleteForeverIcon color={'error'} ref={ref} />),
     DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     Edit: forwardRef((props, ref) => <EditIcon color={'success'} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <GetAppIcon {...props} ref={ref} />),
     Filter: forwardRef((props, ref) => <FilterAltIcon color="action" ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
@@ -43,56 +46,40 @@ const tableIcons = {
     Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-    RefreshData: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const clientInitialState = {
-    firstName: '',
-    lastName: '',
-    rut: '',
-    email: '',
-    phone: '',
-    agreement: false,
-    discount: 0,
-    status: true
-}
-
-
-const ClienteList = ({ clientes, setClientes }) => {
+const ClienteList = () => {
     const nodeRef = useRef(null);
     const tableRef = createRef();
 
+    const [clientes, setClientes] = useState([]);
+    const [actualizar, setActualizar] = useState(false);
+
     useEffect(() => {
-        console.log(clientes);
-    }, []);
+        axios.get('/api/clientes')
+            .then(resp => {
+                console.log(resp.data.data);
+                setClientes(resp.data.data)
+            })
+            .catch(error =>
+                Swal.fire('Error', error.message, 'error'));
+    }, [actualizar]);
 
 
     const [columns, setColumns] = useState([
-        { field: "id", hidden: true },
+        { field: "_id", hidden: true },
         { title: 'Nombre', field: 'firstName' },
         { title: 'Apellido', field: 'lastName' },
         { title: 'Rut', field: 'rut' },
         { title: 'Email', field: 'email' },
         { title: 'Teléfono', field: 'phone' },
-        { title: 'Convenio', field: 'agreement' },
-        { title: 'Descuento', field: 'discount' },
-        { field: 'status', hidden: true },
+        { title: 'Convenio', field: 'agreement', type: 'boolean' },
+        { title: 'Descuento', field: 'discount', type: 'numeric' },
+        { field: 'active', hidden: true },
     ]);
 
-    const [data, setData] = useState([
-        {
-            id: 1,
-            firstName: 'Mehmet',
-            lastName: 'Baran',
-            rut: '261688719',
-            email: 'carlos880425@gmail.com',
-            phone : '934466718',
-            agreement: false,
-            discount: 0,
-            status: true
-        }
-    ]);
+    //const [data, setData] = useState([]);
 
     return (
         <Col>
@@ -101,37 +88,7 @@ const ClienteList = ({ clientes, setClientes }) => {
                 tableRef={tableRef}
                 title=""
                 columns={columns}
-                //data={data}
-                data={query =>
-                    new Promise((resolve, reject) => {
-                        axios.get('/api/clientes')
-                            .then(resp => {
-                                console.log(resp);
-                                //setClientes(resp.data.data)
-                                resolve({
-                                    data: resp.data.data,
-                                    page: resp.data.page - 1,
-                                    totalCount: resp.data.data.length,
-                                })
-                            })
-                            .catch(error => {
-                                Swal.fire('Error', error.message, 'error');
-                                resolve();
-                            });
-                    //   let url = 'https://reqres.in/api/users?'
-                    //   url += 'per_page=' + query.pageSize
-                    //   url += '&page=' + (query.page + 1)
-                    //   fetch(url)
-                    //     .then(response => response.json())
-                    //     .then(result => {
-                    //       resolve({
-                    //         data: result.data,
-                    //         page: result.page - 1,
-                    //         totalCount: result.total,
-                    //       })
-                    //     })
-                    })
-                  }
+                data={clientes}
                 icons={tableIcons}
                 // actions={[
                 //     {
@@ -170,7 +127,8 @@ const ClienteList = ({ clientes, setClientes }) => {
                             deleteText: "Está seguro que desea eliminar el cliente",
                             cancelTooltip: "Cancelar",
                             saveTooltip: "Aceptar"
-                        }
+                        },
+                        emptyDataSourceMessage: "No hay registros que mostrar"
                     },
                     pagination: {
                         labelRowsSelect: "filas",
@@ -192,7 +150,7 @@ const ClienteList = ({ clientes, setClientes }) => {
                 }}
                 options={{
                     addRowPosition: 'first',
-                    actionsColumnIndex: -1,
+                    // actionsColumnIndex: -1,
                     searchFieldAlignment: 'left',
                     exportButton: {
                         csv: true,
@@ -204,7 +162,7 @@ const ClienteList = ({ clientes, setClientes }) => {
                 editable={{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
-                            newData.status = true;
+                            newData.active = true;
                             console.log(newData);
                             axios.post('/api/clientes', newData)
                                 .then(resp => {
@@ -217,7 +175,6 @@ const ClienteList = ({ clientes, setClientes }) => {
                                     } else {
                                         Swal.fire('Error al crear el cliente', resp.data.message, 'error');
                                     }
-                                    //setData([...data, newData]);
                                     resolve();
                                 }).catch(error => {
                                     console.log(error);
@@ -227,48 +184,79 @@ const ClienteList = ({ clientes, setClientes }) => {
                         }),
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                const dataUpdate = [...data];
-                                const index = oldData.tableData.id;
-                                dataUpdate[index] = newData;
-                                setData([...dataUpdate]);
-                                resolve();
-                            }, 1000)
+                            axios.put(`/api/clientes/${newData._id}`, newData)
+                                .then(resp => {
+                                    console.log(resp);
+                                    if (resp.data.ok) {
+                                        const dataUpdate = [...clientes];
+                                        const index = oldData.tableData.id;
+                                        dataUpdate[index] = newData;
+                                        setClientes([...dataUpdate]);
+                                    } else {
+                                        Swal.fire('Error al actualizar el cliente', resp.data.message, 'error');
+                                    }
+                                    resolve();
+                                }).catch(error => {
+                                    console.log(error);
+                                    Swal.fire('Error al actualizar el cliente', error?.message, 'error');
+                                    resolve();
+                                });
                         }),
                     onRowDelete: oldData =>
                         new Promise((resolve, reject) => {
-                            setTimeout(() => {
-                                const dataDelete = [...data];
-                                const index = oldData.tableData.id;
-                                dataDelete.splice(index, 1);
-                                setData([...dataDelete]);
-                                resolve()
-                            }, 1000)
+                            oldData.active = false;
+                            axios.put(`/api/clientes/${oldData._id}`, oldData)
+                                .then(resp => {
+                                    console.log(resp);
+                                    if (resp.data.ok) {
+                                        const dataDelete = [...clientes];
+                                        const index = oldData.tableData.id;
+                                        dataDelete.splice(index, 1);
+                                        setClientes([...dataDelete]);
+                                    } else {
+                                        Swal.fire('Error al eliminar el cliente', resp.data.message, 'error');
+                                    }
+                                    resolve();
+                                }).catch(error => {
+                                    console.log(error);
+                                    Swal.fire('Error al eliminar el cliente', error?.message, 'error');
+                                    resolve();
+                                });
                         }),
                 }}
-                detailPanel={(rowData) => {
-                    console.log(rowData);
-                    return (
-                        <div
-                            style={{
-                                fontSize: 20,
-                                textAlign: 'left',
-                                color: 'white',
-                                backgroundColor: '#43A047',
-                            }}
-                        >
-                            {JSON.stringify(rowData)}
-                        </div>
-                    )
-                }}
+                // detailPanel={[
+                //     {
+                //         icon: () => <VisibilityIcon color={'primary'} />,
+                //         tooltip: 'Detalle',
+                //         render: rowData => {
+                //             return (
+                //                 <div
+                //                     style={{
+                //                         fontSize: 15,
+                //                         textAlign: 'left',
+                //                         color: 'black',
+                //                         backgroundColor: 'white',
+                //                     }}
+                //                 >
+                //                     {JSON.stringify(rowData)}
+                //                 </div>
+                //             )
+                //         },
+                //     }
+                // ]}
                 actions={[
                     {
-                      icon: 'refresh',
-                      tooltip: 'Refresh Data',
-                      isFreeAction: true,
-                      onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+                        icon: () => <RefreshIcon color={'action'} />,
+                        tooltip: 'Refrescar Datos',
+                        isFreeAction: true,
+                        onClick: () => setActualizar(!actualizar),
+                    },
+                    {
+                        icon: () => <VisibilityIcon color={'secondary'} />,
+                        tooltip: 'Detalle',
+                        onClick: (event, rowData) => Swal.fire(JSON.stringify(rowData))
                     }
-                  ]}
+                ]}
             />
         </Col>
     )

@@ -93,7 +93,7 @@ const ClientesAdmin = (props) => {
         </Row>
         <Row>
             <Routes>
-                <Route path="/" element={ <ClienteList clientes={clientes} setClientes={setClientes} eliminar={eliminar}/> } />
+                <Route path="/" element={ <ClienteList /> } />
                 <Route path="create" element={ <ClienteForm accion={create}/> } />
                 <Route path="update/:id" element={ <ClienteForm accion={update} edicion={true}/> } />
                 <Route path="view/:id" element={ <ClienteForm ver={true}/> } />

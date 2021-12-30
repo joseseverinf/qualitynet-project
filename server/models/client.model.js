@@ -40,7 +40,7 @@ const ClientSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Se debe indicar si el registro se creara como activado (true) o desactivado (false)'],
     },
-    status: {
+    active: {
         type: Boolean,
         required: [true, 'Se debe indicar si el registro se creara como activado (true) o desactivado (false)'],
     },
