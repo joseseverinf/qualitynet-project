@@ -153,8 +153,8 @@ const ClienteList = () => {
                                     console.log(resp);
                                     if (resp.data.ok) {
                                         setClientes([
+                                            resp.data.data,
                                             ...clientes,
-                                            resp.data.data
                                         ]);
                                     } else {
                                         Swal.fire('Error al crear el cliente', resp.data.message, 'error');
