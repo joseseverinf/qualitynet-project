@@ -4,31 +4,32 @@ const uniqueValidator = require('mongoose-unique-validator');
 const ClientSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true,
+        required: [true, 'El campo Nombre es requerido'],
         minlength: 3,
         maxlength: 50
     },
     lastName: {
         type: String,
-        required: true,
+        required: [true, 'El campo Apellido es requerido'],
         minlength: 3,
         maxlength: 50
     },
     rut: {
         type: String,
-        required: true,
+        required: [true, 'El campo RUT es requerido'],
         minlength: 8,
-        maxlength: 12
+        maxlength: 12,
+        unique: [true, 'El campo RUT no puede estar repetido'],
     },
     email: {
         type: String,
-        required: true,
+        required: [true, 'El campo Email es requerido'],
         minlength: 3,
         maxlength: 50
     },
     phone: {
         type: String,
-        required: true,
+        required: [true, 'El campo Teléfono es requerido'],
         minlength: 8,
         maxlength: 12
     },
@@ -52,7 +53,7 @@ const ClientSchema = new mongoose.Schema({
 }, { timestamps: { createdAt: true, updatedAt: true } });
 
 
-ClientSchema.plugin(uniqueValidator, { message: 'La Empresa debe ser única.' });
+ClientSchema.plugin(uniqueValidator, { message: '{PATH} debe ser unico porfavor' });
 
 ClientSchema.virtual('user', {
     ref: 'User',

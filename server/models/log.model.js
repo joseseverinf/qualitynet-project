@@ -17,7 +17,7 @@ const LogSchema = new mongoose.Schema({
         type: Date,
         required: [true, 'Debe ingresar la fecha de actualización'],
     },
-    status: {
+    active: {
         type: Boolean,
         required: [true, 'Se debe indicar si el registro se creara como activado (true) o desactivado (false)'],
     }

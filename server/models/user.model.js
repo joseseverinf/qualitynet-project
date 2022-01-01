@@ -12,12 +12,16 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Debe ingresar el email del usuario'],
         validate: [/^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/, 'El email no es válido']
     },
+    profile: {
+        type: String,
+        required: [true, 'Debe indicar el Perfil del Usuario'],
+    },
     password: {
         type: String,
         required: [true, 'Debe ingresar la clave del usuario'],
-        minlength: [8, 'La clave debe tener mínimo 6 caracteres']
+        minlength: [6, 'La clave debe tener mínimo 6 caracteres']
     },
-    status: {
+    active: {
         type: Boolean,
         required: [true, 'Se debe indicar si el registro se creara como activado (true) o desactivado (false)'],
     }
