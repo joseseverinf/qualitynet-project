@@ -53,7 +53,7 @@ module.exports.get = (req, resp) => {
         });
 }
 module.exports.list = (req, resp) => {
-    Maintenance.find({active: true})
+    Maintenance.find({active: true}).populate('user', '-password').sort({updatedAt: 'desc'})
         .then(data => resp.status(200).json({ ok: true, message: 'Maintenance', data: data}))
         .catch(error => {
             console.log('LIST', error);

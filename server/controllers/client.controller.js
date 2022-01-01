@@ -54,7 +54,7 @@ module.exports.get = (req, res) => {
 }
 
 module.exports.list = (req, res) => {
-    Client.find({active: true}).populate('user', '-password')
+    Client.find({active: true}).populate('user', '-password').sort({updatedAt: 'desc'})
         .then(data => res.status(200).json({ ok: true, message: 'client', data: data }))
         .catch(error => {
             console.log('LIST', error);
