@@ -16,7 +16,6 @@ const Home = (props) => {
     }
 
     return (
-        
         <Container className="recuadro">
             <Row>
                 <Col xs={6} className="espaciado3 alineacion">
@@ -31,7 +30,6 @@ const Home = (props) => {
                 </Col>
             </Row>
         </Container>
-        
     );
 }
 

@@ -67,7 +67,6 @@ const LoginForm = (props) => {
                                 <Label>Username:</Label>
                                 <Input type="text" name="username" value={inputs.username} onChange={formUpdate} required maxLength={50} />
                             </FormGroup>
-                        
                             <FormGroup>
                                 <Label>Password:</Label>
                                 <Input type="password" name="password" value={inputs.password} onChange={formUpdate} required minLength={6} />

@@ -87,16 +87,15 @@ const ClientesAdmin = (props) => {
             </Col>
             <Col xs={3} md={3} lg={3} className="espaciado4 alineacion-right">
                 <Link to="/clientes/dashboard/"><BsHouseDoor color="black" size={32}  style={{ marginRight: '10px'}} /></Link>
-                
-                <Button color="primary" type="button" onClick={goCreate}>Crear Nuevo Cliente</Button>
+                {/* <Button color="primary" type="button" onClick={goCreate}>Crear Nuevo Cliente</Button> */}
             </Col>
         </Row>
         <Row>
             <Routes>
                 <Route path="/" element={ <ClienteList /> } />
-                <Route path="create" element={ <ClienteForm accion={create}/> } />
+                {/* <Route path="create" element={ <ClienteForm accion={create}/> } />
                 <Route path="update/:id" element={ <ClienteForm accion={update} edicion={true}/> } />
-                <Route path="view/:id" element={ <ClienteForm ver={true}/> } />
+                <Route path="view/:id" element={ <ClienteForm ver={true}/> } /> */}
             </Routes>
         </Row>
     </Container>

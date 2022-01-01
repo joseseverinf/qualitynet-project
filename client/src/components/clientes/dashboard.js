@@ -17,7 +17,7 @@ const ClienteDashboard = (props) => {
         <Container fluid className="espaciado3 recuadro">
             <Row className="espaciado3">
                 <Col xs={12} className="alineacion">
-                    <img src={Logo} width="200" alt='logo'/> 
+                    <img src={Logo} width="200" alt='logo'/>
                     <h1>Panel de Control de Quality Pellets NET</h1>
                     <p>A continuación, selecciona uno de los módulos para visualizar lo que necesites trabajar</p>
                 </Col>
