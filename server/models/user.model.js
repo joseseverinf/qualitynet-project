@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     },
     active: {
         type: Boolean,
-        required: [true, 'Se debe indicar si el registro se creara como activado (true) o desactivado (false)'],
+        //required: [true, 'Se debe indicar si el registro se creara como activado (true) o desactivado (false)'],
     }
 }, 
 { timestamps: { createdAt: true, updatedAt: true } });

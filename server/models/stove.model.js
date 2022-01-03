@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
+//const uniqueValidator = require('mongoose-unique-validator');
 
 const StoveSchema = new mongoose.Schema({
     stoveName: {
@@ -11,12 +11,13 @@ const StoveSchema = new mongoose.Schema({
     stoveBrand: {
         type: String,
         required: [true, 'El campo Marca Estufa es requerido'],
-        minlength: 3,
+        minlength: 3
     },
     stoveModel: {
         type: String,
         required: [true, 'El campo Modelo Estufa es requerido'],
-        unique: [true, 'El campo Modelo Estufa no puede estar repetido'],
+        minlength: 3,
+        //unique: [true, 'El campo Modelo Estufa no puede estar repetido'],
     },
     stoveCode: {
         type: String,
@@ -53,7 +54,7 @@ const StoveSchema = new mongoose.Schema({
    
 }, { timestamps: { createdAt: true, updatedAt: true } });
 
-StoveSchema.plugin(uniqueValidator, { message: 'La Empresa debe ser única.' });
+//StoveSchema.plugin(uniqueValidator, { message: 'El Producto no puede estar repetido.' });
 
 StoveSchema.virtual('user', {
     ref: 'User',
