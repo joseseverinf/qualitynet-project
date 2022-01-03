@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import { Container } from 'reactstrap';
 import Home from './components/home/home';
 import ClientesAdmin from './components/clientes/admin';
+import MantenimientosAdmin from './components/mantenimientos/admin';
 import LoginForm from "./components/login/login";
 import RegisterForm from "./components/register/form";
 import ClienteDashboard from "./components/clientes/dashboard";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/login" element={<LoginForm />}/>
             <Route path="/register" element={<RegisterForm />}/>
             <Route path="/clientes/*" element={<ClientesAdmin />} />
+            <Route path="/mantenciones/*" element={<MantenimientosAdmin />} />
             <Route path="/clientes/dashboard" element={<ClienteDashboard />} />
             <Route path="/clientes/view" element={<ClienteView />} />
             <Route path="/estufas/*" element={<EstufaAdmin />} />
