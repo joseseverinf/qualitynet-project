@@ -24,6 +24,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { TextField } from '@mui/material';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBoxIcon {...props} ref={ref} sx={{ fontSize: 30 }} />),
@@ -63,13 +64,57 @@ const ClienteList = () => {
 
     const [columns, setColumns] = useState([
         { title: 'Id', field: "_id", hidden: true, filtering: false },
-        { title: 'Nombre', field: 'firstName', validate: rowData => rowData.firstName && (rowData.firstName.length < 3 || rowData.firstName.length > 50) ? { isValid: false, helperText: 'El Nombre debe tener más de 3 y menos de 50 caracteres.' } : true },
-        { title: 'Apellido', field: 'lastName', validate: rowData => rowData.lastName && (rowData.lastName.length < 3 || rowData.lastName.length > 50) ? { isValid: false, helperText: 'El Apellido debe tener más de 3 y menos de 50 caracteres.' } : true },
-        { title: 'Rut', field: 'rut', validate: rowData => rowData.rut && (rowData.rut.length < 8 || rowData.rut.length > 12) ? { isValid: false, helperText: 'El Rut debe tener más de 8 y menos de 12 caracteres.' } : true },
-        { title: 'Email', field: 'email', filtering: false, validate: rowData => rowData.email && !validEmail.test(rowData.email) ? { isValid: false, helperText: 'Ingrese un Email válido.' } : true },
-        { title: 'Teléfono', field: 'phone', filtering: false, validate: rowData => rowData.phone && (rowData.phone.length < 8 || rowData.phone.length > 12) ? { isValid: false, helperText: 'El Teléfono debe tener más de 8 y menos de 12 caracteres.' } : true},
-        { title: 'Convenio', field: 'agreement', type: 'boolean'},
-        { title: 'Descuento', field: 'discount', type: 'numeric', filtering: false, },
+        {
+            title: 'Nombre',
+            field: 'firstName',
+            editComponent: props => (
+                <TextField id='firstName' label="Nombre" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            ),
+            validate: rowData => rowData.firstName && (rowData.firstName.length < 3 || rowData.firstName.length > 50) ? { isValid: false, helperText: 'El Nombre debe tener más de 3 y menos de 50 caracteres.' } : true
+        },
+        {
+            title: 'Apellido',
+            field: 'lastName',
+            editComponent: props => (
+                <TextField id='lastName' label="Apellido" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            ),
+            validate: rowData => rowData.lastName && (rowData.lastName.length < 3 || rowData.lastName.length > 50) ? { isValid: false, helperText: 'El Apellido debe tener más de 3 y menos de 50 caracteres.' } : true
+        },
+        {
+            title: 'Rut',
+            field: 'rut',
+            editComponent: props => (
+                <TextField id='rut' label="Rut" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            ),
+            validate: rowData => rowData.rut && (rowData.rut.length < 8 || rowData.rut.length > 12) ? { isValid: false, helperText: 'El Rut debe tener más de 8 y menos de 12 caracteres.' } : true
+        },
+        {
+            title: 'Email',
+            field: 'email',
+            editComponent: props => (
+                <TextField id='email' label="Email" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            ),
+            filtering: false, validate: rowData => rowData.email && !validEmail.test(rowData.email) ? { isValid: false, helperText: 'Ingrese un Email válido.' } : true
+        },
+        {
+            title: 'Teléfono',
+            field: 'phone',
+            filtering: false,
+            editComponent: props => (
+                <TextField id='phone' label="Teléfono" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            ),
+            validate: rowData => rowData.phone && (rowData.phone.length < 8 || rowData.phone.length > 12) ? { isValid: false, helperText: 'El Teléfono debe tener más de 8 y menos de 12 caracteres.' } : true
+        },
+        { title: 'Convenio', field: 'agreement', type: 'boolean' },
+        {
+            title: 'Descuento',
+            field: 'discount',
+            type: 'numeric',
+            editComponent: props => (
+                <TextField type="number" id='discount' label="Descuento" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            ),
+            filtering: false
+        },
         { title: 'Activo', field: 'active', hidden: true, filtering: false },
     ]);
 
@@ -139,33 +184,33 @@ const ClienteList = () => {
                 editable={{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
-                            if(newData && Object.keys(newData).length !== 0){
+                            if (newData && Object.keys(newData).length !== 0) {
                                 newData.active = true;
-                                if(!newData.agreement){
+                                if (!newData.agreement) {
                                     newData.agreement = false;
                                     newData.discount = 0;
                                 }
-                                if(!newData.discount){
+                                if (!newData.discount) {
                                     newData.discount = 0;
                                 }
                                 axios.post('/api/clientes', newData)
-                                .then(resp => {
-                                    console.log(resp);
-                                    if (resp.data.ok) {
-                                        setClientes([
-                                            resp.data.data,
-                                            ...clientes,
-                                        ]);
-                                    } else {
-                                        Swal.fire('Error al crear el cliente', resp.data.message, 'error');
-                                    }
-                                    resolve();
-                                }).catch(error => {
-                                    console.log(error);
-                                    Swal.fire('Error al crear el cliente', error?.message, 'error');
-                                    resolve();
-                                });
-                            }else{
+                                    .then(resp => {
+                                        console.log(resp);
+                                        if (resp.data.ok) {
+                                            setClientes([
+                                                resp.data.data,
+                                                ...clientes,
+                                            ]);
+                                        } else {
+                                            Swal.fire('Error al crear el cliente', resp.data.message, 'error');
+                                        }
+                                        resolve();
+                                    }).catch(error => {
+                                        console.log(error);
+                                        Swal.fire('Error al crear el cliente', error?.message, 'error');
+                                        resolve();
+                                    });
+                            } else {
                                 resolve();
                             }
                         }),
