@@ -1,25 +1,34 @@
 import React from 'react';
 import Logo from './images/Logo.png';
-import { Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { ImUsers } from 'react-icons/im';
 import { MdFireplace } from 'react-icons/md';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
 import { FiSettings } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import UserContext from '../context/user-context';
+import { useContext }from 'react';
 
 const ClienteDashboard = (props) => {
-
+    const context = useContext(UserContext);
     const navigate = useNavigate()
+
+    const logout = e => {
+        context.logout();
+    }
 
     return (
         <>
         <Container fluid className="espaciado3 recuadro">
             <Row className="espaciado3">
-                <Col xs={12} className="alineacion">
+                <Col xs={9} className="alineacion">
                     <img src={Logo} width="200" alt='logo'/>
                     <h1>Panel de Control de Quality Pellets NET</h1>
                     <p>A continuación, selecciona uno de los módulos para visualizar lo que necesites trabajar</p>
+                </Col>
+                <Col className="alineación" xs={3}>
+                    <Button onClick={logout}>LogOut</Button>
                 </Col>
                 <Col className="alineación" xs={3}>
                 <Link to={`/clientes/`}><ImUsers color="blue" style={{ marginRight: '10px', fontSize: '100', textAlign: 'center'}}/></Link>
@@ -37,6 +46,7 @@ const ClienteDashboard = (props) => {
                 <Link to={`/mantenciones/`}><FiSettings color="grey" style={{ marginRight: '10px', fontSize: '100', textAlign: 'center'}}/></Link>
                     <p>Instalación y Mantenciones</p>
                 </Col>
+                
             </Row>
         </Container>
         </>

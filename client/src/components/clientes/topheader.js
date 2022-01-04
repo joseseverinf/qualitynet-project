@@ -1,15 +1,16 @@
-import { useContext }from 'react';
+
 import Logo from './images/Logo.png';
 import { Button, Container, Row, Col, Navbar, NavbarBrand, NavbarToggler, Collapse, NavbarText } from 'reactstrap';
 import UserContext from '../context/user-context';
+import { useContext }from 'react';
 
 const ClienteTop = (props) => {
-
     const context = useContext(UserContext);
 
     const logout = e => {
         context.logout();
     }
+ 
 
     return (
         <>
@@ -21,13 +22,12 @@ const ClienteTop = (props) => {
                         <NavbarToggler onClick={function noRefCheck(){}} />
                         <Collapse navbar>
                         <NavbarText>
-                        <Col xs={12}>
+                        <Col xs={9}>
                             <h2>Welcome a QulityNET</h2>
                         </Col>
-                        <Col xs={6}>
-                            <Button onClick={logout}>LogOut</Button>
+                        <Col className="alineación" xs={3}>
+                            <Button onClick={logout} hidden>LogOut</Button>
                         </Col>
-
                         </NavbarText>
                         </Collapse>
                     </Navbar>
