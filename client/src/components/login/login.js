@@ -1,10 +1,7 @@
-import React from 'react';
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useContext, useState } from "react";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Logo from '../clientes/images/Logo.png';
-import Swal from "sweetalert2";
+import UserContext from '../context/user-context'
 
 const initialState = {
     username: '',
@@ -14,8 +11,8 @@ const initialState = {
 const LoginForm = (props) => {
 
     const [inputs, setInputs] = useState(initialState);
+    const context = useContext(UserContext);
 
-    const navigate = useNavigate();
 
     const formUpdate = (e) => {
         const { name, value } = e.target;
@@ -25,31 +22,11 @@ const LoginForm = (props) => {
         });
     }
 
-    const goIn = (e) => {
-        e?.stopPropagation();
-        navigate('/clientes/dashboard');
-    }
-    const goHome = (e) => {
-        e?.stopPropagation();
-        navigate('/');
-    }
 
     const formSubmit = (e) => {
         e.preventDefault();
-        axios.post('/api/login', inputs)
-            .then(resp => {
-                if (resp.data.ok) {
-                    Swal.fire('Login', resp.data.message, 'success');
-                    goIn();
-                } else {
-                    Swal.fire('Login', resp.data.message, 'error');
-                    goHome();
-                }
-            })
-            .catch(err => {
-                console.log(err);
-
-            })
+        context.login(inputs);
+        setInputs(initialState);
     }
 
     return (
@@ -75,10 +52,7 @@ const LoginForm = (props) => {
                     </Row>
                     <Row>
                         <Col xs={6} md={3}>
-                            <Button color="primary" type="submit">Ingresar</Button>
-                        </Col>
-                        <Col xs={6} md={3}>
-                            <Button type="button" onClick={goHome}>Cancelar</Button>
+                            <Button color="primary" type="submit">Login</Button>
                         </Col>
                     </Row>
                 </Form>

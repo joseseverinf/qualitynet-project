@@ -84,7 +84,7 @@ const EstufasAdmin = (props) => {
             <Col xs={6} md={6} lg={6} className="espaciado4 alineacion-left">
             <h2><MdFireplace color="red" style={{ marginRight: '10px', fontSize: '50', textAlign: 'center'}}/>Nuestras Estufas</h2>            </Col>
             <Col xs={3} md={3} lg={3} className="espaciado4 alineacion-right">
-                <Link to="/clientes/dashboard/"><BsHouseDoor color="black" size={32}  style={{ marginRight: '10px'}} /></Link>
+                <Link to="/"><BsHouseDoor color="black" size={32}  style={{ marginRight: '10px'}} /></Link>
                 {/* <Button color="primary" type="button" onClick={goCreate}>Crear Nuevo Cliente</Button> */}
             </Col>
         </Row>

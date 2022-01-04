@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from "react";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import { useNavigate } from 'react-router-dom'
 import axios from "axios";
 import Logo from '../clientes/images/Logo.png';
 import Swal from "sweetalert2";
@@ -10,12 +9,13 @@ const initialState = {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    profile:''
 }
 const RegisterForm = (props) => {
 
     const [inputs, setInputs] = useState(initialState);
-    const navigate = useNavigate();
+
     const formUpdate = (e) => {
         const { name, value } = e.target;
         setInputs({
@@ -23,17 +23,14 @@ const RegisterForm = (props) => {
             [name]: value
         });
     }
-    const goHome = (e) => {
-        e?.stopPropagation();
-        navigate('/');
-    }
+
     const formSubmit = (e) => {
         e.preventDefault();
         axios.post('/api/register', inputs)
             .then(resp => {
                 if (resp.data.ok) {
                     Swal.fire('Registro de Usuarios', resp.data.message, 'success');
-                    goHome();
+                    setInputs(initialState);
                 } else {
                     Swal.fire('Registro de Usuarios', resp.data.message, 'error');
                 }
@@ -72,13 +69,15 @@ const RegisterForm = (props) => {
                         <Label>Confirmar Password:</Label>
                         <Input type="password" name="confirmPassword" value={inputs.confirmPassword} onChange={formUpdate} required minLength={6} />
                     </FormGroup>
+
+                    <FormGroup>
+                        <Label>Perfil:</Label>
+                        <Input type="text" name="profile" value={inputs.profile} onChange={formUpdate} required minLength={6} />
+                    </FormGroup>
                 </Col>
             <Row>
                 <Col xs={6} md={3}>
                     <Button color="success" type="submit">Registrarse</Button>
-                </Col>
-                <Col xs={6} md={3}>
-                    <Button type="button" onClick={goHome}>Cancelar</Button>
                 </Col>
             </Row>
             </Form>

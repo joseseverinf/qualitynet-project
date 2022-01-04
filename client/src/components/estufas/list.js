@@ -24,7 +24,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { TextField } from "@mui/material";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => (
@@ -80,121 +79,86 @@ const EstufaList = () => {
   const [columns, setColumns] = useState([
     { title: "Id", field: "_id", hidden: true, filtering: false },
     {
-      title: "Nombre",
+      title: "Nombre_Estufa",
       field: "stoveName",
-      editComponent: props => (
-        <TextField id='stoveName' label="Nombre" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
       validate: (rowData) =>
         rowData.stoveName &&
-          (rowData.stoveName.length < 3 || rowData.stoveName.length > 50)
+        (rowData.stoveName.length < 3 || rowData.stoveName.length > 50)
           ? {
-            isValid: false,
-            helperText:
-              "El Nombre de la estufa debe tener más de 3 y menos de 50 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "El Nombre de la estufa debe tener más de 3 y menos de 50 caracteres.",
+            }
           : true,
     },
     {
       title: "Marca",
       field: "stoveBrand",
-      editComponent: props => (
-        <TextField id='stoveBrand' label="Marca" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
       validate: (rowData) =>
         rowData.stoveBrand && rowData.stoveBrand.length < 3
           ? {
-            isValid: false,
-            helperText:
-              "La Marca de la estufa debe contener mínimo 3 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "La Marca de la estufa debe contener mínimo 3 caracteres.",
+            }
           : true,
     },
     {
       title: "Modelo",
       field: "stoveModel",
-      editComponent: props => (
-        <TextField id='stoveModel' label="Modelo" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
       validate: (rowData) =>
         rowData.stoveModel && rowData.stoveBrand.length < 3
           ? {
-            isValid: false,
-            helperText:
-              "El Modelo de la estufa debe contener mínimo 3 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "El Modelo de la estufa debe contener mínimo 3 caracteres.",
+            }
           : true,
     },
     {
       title: "Código",
       field: "stoveCode",
-      editComponent: props => (
-        <TextField id='stoveCode' label="Código" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
       validate: (rowData) =>
         rowData.stoveModel && rowData.stoveBrand.length < 4
           ? {
-            isValid: false,
-            helperText:
-              "El Código de la estufa debe contener mínimo 4 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "El Código de la estufa debe contener mínimo 4 caracteres.",
+            }
           : true,
     },
     {
       title: "Color",
       field: "stoveColor",
       type: "color",
-      editComponent: props => (
-        <TextField id='stoveColor' label="Color" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
       filtering: false,
     },
     {
       title: "País Origen",
       field: "stoveOrigin",
       filtering: false,
-      editComponent: props => (
-        <TextField id='stoveOrigin' label="País Origen" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
+      
     },
     {
       title: "Cantidad",
       field: "stoveAmount",
       filtering: false,
-      editComponent: props => (
-        <TextField type="number" id='stoveAmount' label="Cantidad" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
       type: 'numeric'
     },
     {
       title: "Precio Unitario",
       field: "stoveUnitPrice",
       filtering: false,
-      type: 'currency',
-      currencySetting: {
-        locale: 'es',
-        currencyCode: 'CLP',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      },
-      editComponent: props => (
-        <TextField type="number" id='stoveUnitPrice' label="Precio Unitario" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      )
+      vtype: 'numeric'
     },
     {
       title: "Imágen",
       field: "stoveImage",
       filtering: false,
-      editComponent: props => (
-        <TextField id='stoveImage' label="Imágen" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      )
     },
     {
       title: "Características",
       field: "stoveCharacteristic",
-      editComponent: props => (
-        <TextField id='stoveCharacteristic' label="Características" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      ),
       filtering: false,
     },
     { title: "Activo", field: "active", hidden: true, filtering: false },
@@ -261,7 +225,7 @@ const EstufaList = () => {
           ],
           grouping: true,
           filtering: true,
-          columnsButton: true,
+          columnsButton: true, 
         }}
         editable={{
           onRowAdd: (newData) =>
