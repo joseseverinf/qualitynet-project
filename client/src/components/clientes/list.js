@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters';
-import { Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -119,158 +119,200 @@ const ClienteList = () => {
     ]);
 
     return (
-        <Col>
-            <MaterialTable
-                title=""
-                columns={columns}
-                data={clientes}
-                icons={tableIcons}
-                localization={{
-                    toolbar: {
-                        exportTitle: "Exportar",
-                        searchTooltip: "Buscar",
-                        searchPlaceholder: "Buscar",
-                        showColumnsTitle: "Mostrar Columnas"
-                    },
-                    header: {
-                        actions: "Acciones"
-                    },
-                    body: {
-                        addTooltip: "Crear",
-                        editTooltip: "Editar",
-                        deleteTooltip: "Eliminar",
-                        editRow: {
-                            deleteText: "Está seguro que desea eliminar el cliente",
-                            cancelTooltip: "Cancelar",
-                            saveTooltip: "Aceptar"
-                        },
-                        emptyDataSourceMessage: "No hay registros que mostrar"
-                    },
-                    pagination: {
-                        labelRowsSelect: "filas",
-                        labelDisplayedRows: "{from}-{to} de {count}",
-                        labelRowsPerPage: "Filas por página:",
-                        firstAriaLabel: "Primera página",
-                        firstTooltip: "Primera página",
-                        previousAriaLabel: "Página anterior",
-                        previousTooltip: "Página anterior",
-                        nextAriaLabel: "Siguiente página",
-                        nextTooltip: "Siguiente página",
-                        lastAriaLabel: "Última página",
-                        lastTooltip: "Última página"
-                    },
-                    grouping: {
-                        placeholder: "Arrastra los encabezados aquí para agruparlos",
-                        groupedBy: "Agrupados por: "
-                    }
-                }}
-                options={{
-                    addRowPosition: 'first',
-                    searchFieldAlignment: 'left',
-                    exportMenu: [
-                        {
-                            label: 'Exportar como PDF',
-                            exportFunc: (cols, datas) => ExportPdf(cols, datas, 'Clientes')
-                        },
-                        {
-                            label: 'Exportar como CSV',
-                            exportFunc: (cols, datas) => ExportCsv(cols, datas, 'Clientes')
-                        }
-                    ],
-                    grouping: true,
-                    filtering: true,
-                    columnsButton: true
-                }}
-                editable={{
-                    onRowAdd: newData =>
-                        new Promise((resolve, reject) => {
-                            if (newData && Object.keys(newData).length !== 0) {
-                                newData.active = true;
-                                if (!newData.agreement) {
-                                    newData.agreement = false;
-                                    newData.discount = 0;
-                                }
-                                if (!newData.discount) {
-                                    newData.discount = 0;
-                                }
-                                axios.post('/api/clientes', newData)
-                                    .then(resp => {
-                                        console.log(resp);
-                                        if (resp.data.ok) {
-                                            setClientes([
-                                                resp.data.data,
-                                                ...clientes,
-                                            ]);
-                                        } else {
-                                            Swal.fire('Error al crear el cliente', resp.data.message, 'error');
-                                        }
-                                        resolve();
-                                    }).catch(error => {
-                                        console.log(error);
-                                        Swal.fire('Error al crear el cliente', error?.message, 'error');
-                                        resolve();
-                                    });
-                            } else {
-                                resolve();
+        <>
+      <Container fluid className="espaciado">
+        <Row>
+                <Col>
+                    <MaterialTable
+                        title=""
+                        columns={columns}
+                        data={clientes}
+                        icons={tableIcons}
+                        localization={{
+                            toolbar: {
+                                exportTitle: "Exportar",
+                                searchTooltip: "Buscar",
+                                searchPlaceholder: "Buscar",
+                                showColumnsTitle: "Mostrar Columnas"
+                            },
+                            header: {
+                                actions: "Acciones"
+                            },
+                            body: {
+                                addTooltip: "Crear",
+                                editTooltip: "Editar",
+                                deleteTooltip: "Eliminar",
+                                editRow: {
+                                    deleteText: "Está seguro que desea eliminar el cliente",
+                                    cancelTooltip: "Cancelar",
+                                    saveTooltip: "Aceptar"
+                                },
+                                emptyDataSourceMessage: "No hay registros que mostrar"
+                            },
+                            pagination: {
+                                labelRowsSelect: "filas",
+                                labelDisplayedRows: "{from}-{to} de {count}",
+                                labelRowsPerPage: "Filas por página:",
+                                firstAriaLabel: "Primera página",
+                                firstTooltip: "Primera página",
+                                previousAriaLabel: "Página anterior",
+                                previousTooltip: "Página anterior",
+                                nextAriaLabel: "Siguiente página",
+                                nextTooltip: "Siguiente página",
+                                lastAriaLabel: "Última página",
+                                lastTooltip: "Última página"
+                            },
+                            grouping: {
+                                placeholder: "Arrastra los encabezados aquí para agruparlos",
+                                groupedBy: "Agrupados por: "
                             }
-                        }),
-                    onRowUpdate: (newData, oldData) =>
-                        new Promise((resolve, reject) => {
-                            axios.put(`/api/clientes/${newData._id}`, newData)
-                                .then(resp => {
-                                    if (resp.data.ok) {
-                                        const dataUpdate = [...clientes];
-                                        const target = dataUpdate.find((el) => el.id === oldData.tableData.id);
-                                        const index = dataUpdate.indexOf(target);
-                                        dataUpdate[index] = newData;
-                                        setClientes([...dataUpdate]);
+                        }}
+                        options={{
+                            addRowPosition: 'first',
+                            searchFieldAlignment: 'left',
+                            exportMenu: [
+                                {
+                                    label: 'Exportar como PDF',
+                                    exportFunc: (cols, datas) => ExportPdf(cols, datas, 'Clientes')
+                                },
+                                {
+                                    label: 'Exportar como CSV',
+                                    exportFunc: (cols, datas) => ExportCsv(cols, datas, 'Clientes')
+                                }
+                            ],
+                            grouping: true,
+                            filtering: true,
+                            columnsButton: true
+                        }}
+                        editable={{
+                            onRowAdd: newData =>
+                                new Promise((resolve, reject) => {
+                                    if (newData && Object.keys(newData).length !== 0) {
+                                        newData.active = true;
+                                        if (!newData.agreement) {
+                                            newData.agreement = false;
+                                            newData.discount = 0;
+                                        }
+                                        if (!newData.discount) {
+                                            newData.discount = 0;
+                                        }
+                                        axios.post('/api/clientes', newData)
+                                            .then(resp => {
+                                                console.log(resp);
+                                                if (resp.data.ok) {
+                                                    setClientes([
+                                                        resp.data.data,
+                                                        ...clientes,
+                                                    ]);
+                                                } else {
+                                                    Swal.fire('Error al crear el cliente', resp.data.message, 'error');
+                                                }
+                                                resolve();
+                                            }).catch(error => {
+                                                console.log(error);
+                                                Swal.fire('Error al crear el cliente', error?.message, 'error');
+                                                resolve();
+                                            });
                                     } else {
-                                        Swal.fire('Error al actualizar el cliente', resp.data.message, 'error');
+                                        resolve();
                                     }
-                                    resolve();
-                                }).catch(error => {
-                                    console.log(error);
-                                    Swal.fire('Error al actualizar el cliente', error?.message, 'error');
-                                    resolve();
-                                });
-                        }),
-                    onRowDelete: oldData =>
-                        new Promise((resolve, reject) => {
-                            oldData.active = false;
-                            axios.put(`/api/clientes/${oldData._id}`, oldData)
-                                .then(resp => {
-                                    if (resp.data.ok) {
-                                        const dataDelete = [...clientes];
-                                        const target = dataDelete.find((el) => el.id === oldData.tableData.id);
-                                        const index = dataDelete.indexOf(target);
-                                        dataDelete.splice(index, 1);
-                                        setClientes([...dataDelete]);
-                                    } else {
-                                        Swal.fire('Error al eliminar el cliente', resp.data.message, 'error');
-                                    }
-                                    resolve();
-                                }).catch(error => {
-                                    console.log(error);
-                                    Swal.fire('Error al eliminar el cliente', error?.message, 'error');
-                                    resolve();
-                                });
-                        }),
-                }}
-                actions={[
-                    {
-                        icon: () => <RefreshIcon color={'action'} sx={{ fontSize: 30 }} />,
-                        tooltip: 'Refrescar Datos',
-                        isFreeAction: true,
-                        onClick: () => setActualizar(!actualizar),
-                    },
-                    {
-                        icon: () => <VisibilityIcon color={'secondary'} />,
-                        tooltip: 'Detalle',
-                        onClick: (event, rowData) => Swal.fire(JSON.stringify(rowData))
-                    }
-                ]}
-            />
-        </Col>
+                                }),
+                            onRowUpdate: (newData, oldData) =>
+                                new Promise((resolve, reject) => {
+                                    axios.put(`/api/clientes/${newData._id}`, newData)
+                                        .then(resp => {
+                                            if (resp.data.ok) {
+                                                const dataUpdate = [...clientes];
+                                                const target = dataUpdate.find((el) => el.id === oldData.tableData.id);
+                                                const index = dataUpdate.indexOf(target);
+                                                dataUpdate[index] = newData;
+                                                setClientes([...dataUpdate]);
+                                            } else {
+                                                Swal.fire('Error al actualizar el cliente', resp.data.message, 'error');
+                                            }
+                                            resolve();
+                                        }).catch(error => {
+                                            console.log(error);
+                                            Swal.fire('Error al actualizar el cliente', error?.message, 'error');
+                                            resolve();
+                                        });
+                                }),
+                            onRowDelete: oldData =>
+                                new Promise((resolve, reject) => {
+                                    oldData.active = false;
+                                    axios.put(`/api/clientes/${oldData._id}`, oldData)
+                                        .then(resp => {
+                                            if (resp.data.ok) {
+                                                const dataDelete = [...clientes];
+                                                const target = dataDelete.find((el) => el.id === oldData.tableData.id);
+                                                const index = dataDelete.indexOf(target);
+                                                dataDelete.splice(index, 1);
+                                                setClientes([...dataDelete]);
+                                            } else {
+                                                Swal.fire('Error al eliminar el cliente', resp.data.message, 'error');
+                                            }
+                                            resolve();
+                                        }).catch(error => {
+                                            console.log(error);
+                                            Swal.fire('Error al eliminar el cliente', error?.message, 'error');
+                                            resolve();
+                                        });
+                                }),
+                        }}
+                        actions={[
+                            {
+                                icon: () => <RefreshIcon color={'action'} sx={{ fontSize: 30 }} />,
+                                tooltip: 'Refrescar Datos',
+                                isFreeAction: true,
+                                onClick: () => setActualizar(!actualizar),
+                            },
+                            {
+                                icon: () => <VisibilityIcon color={'secondary'} />,
+                                tooltip: 'Detalle',
+                                onClick: (event, rowData) => Swal.fire({
+                                    html: `
+                                    <row>
+                                        <h3>Estás visualizando al cliente:</h3>
+                                        <hr>
+                                        <col>
+                                                <p><b>Nombre:</b> ${rowData.firstName} ${rowData.lastName}</p>
+                                                <p><b>Rut:</b> ${rowData.rut}</p>
+                                                <p><b>Teléfono:</b> ${rowData.phone}</p>
+                                                <p><b>Email:</b> ${rowData.email}</p>
+                                                <p><b>Convenio:</b> ${rowData.agreement}</p>
+                                                <p><b>Descuento:</b> ${rowData.discount}</p>                                      
+                                        </col>
+                                    </row>
+                                    `,
+                                    focusConfirm: false,
+                                    focusCancel: false,
+                                    customClass: {
+                                        container: 'swal-wide',
+                                        popup: 'swal-wide',
+                                        header: 'swal-wide',
+                                        closeButton: 'swal-wide',
+                                        icon: 'swal-wide',
+                                        image: 'swal-wide',
+                                        content: 'swal-wide',
+                                        actions: 'swal-wide',
+                                        confirmButton: 'swal-wide',
+                                        cancelButton: 'swal-wide',
+                                        footer: 'swal-wide',
+                                    },
+                                    showClass: {
+                                        popup: 'animated fadeIn faster',
+                                        actions: 'animated fadeIn faster',
+                                        confirmButton: 'animated zoomIn faster',
+                                        cancelButton: 'animated zoomIn faster',
+                                    },
+                                },JSON.stringify(rowData))
+                            }
+                        ]}
+                    />
+                </Col>
+            </Row>
+    </Container>
+    </>
     )
 }
 

@@ -1,3 +1,6 @@
+body {
+  height: 100vh;
+}
 .espaciado {
   margin-top: 120px;
 }
@@ -6,35 +9,49 @@
 }
 .espaciado3 {
   padding: 50px;
-  }
+}
 .espaciado3 img {
-  margin-left:30px;
-  }  
-  .espaciado4 {
-    padding-top: 50px;
-    padding-bottom:0;
-    }   
-
-.alineacion  {
-  padding:30px;
+  margin-left: 30px;
+}
+.espaciado4 {
+  padding-top: 50px;
+  padding-bottom: 0;
+}
+.recuadro-reg-log {
+  margin: 120px 0 0 0;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.alineacion {
+  padding: 30px;
   text-align: center;
   display: inline-block;
-} 
-.alineacion-left  {
-  padding-top:70px;
+}
+.alineacion-left {
+  padding-top: 70px;
   text-align: left;
   display: inline-block;
-} 
-.alineacion-right  {
-  padding:70px 0px 0px 0px;
+}
+.alineacion-left p {
+  padding-top: 70px;
+  text-align: left;
+  display: inline-block;
+}
+.al
+.alineacion img {
+  padding-bottom: 10px;
+}
+.alineacion-right {
+  padding: 70px 0px 0px 0px;
   text-align: right;
   display: inline-block;
-} 
+}
 .recuadro {
   width: 60%;
   margin: 100px auto;
   padding: 10px;
-  top:20vh;
+  top: 20vh;
   position: relative;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.8);
@@ -42,24 +59,22 @@
 .recuadro-lista {
   margin: 50px auto;
   padding: 10px;
-  top:10vh;
+  top: 10vh;
   position: relative;
   border-radius: 10px;
 }
 .recuadro-nc {
   margin: 10px;
   padding: 20px;
-  top:10vh;
+  top: 10vh;
   position: relative;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.8);
 }
-
 .estilo-top {
   border-bottom: 10px solid green;
   padding: 30px;
 }
-
 .estilo-footer {
   width: 100%;
   color: #fff;
@@ -67,19 +82,39 @@
   background-color: red;
   padding: 30px;
   margin: 50px 0 0 0;
-  bottom:0;
+  bottom: 0;
 }
-
+.textos-dash {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+}
 .Fondo {
-  background: url('./fondo.jpg') no-repeat center center;
-  background-size: cover;
+  background: url("./fondo.png") repeat center center;
   height: 100vh;
 }
-
-Table {
-  margin: 0 auto;
- }
-
- Table ul li {
-  list-style: none;
- }
+Link a {
+  text-decoration: none !important;
+}
+.swal2-styled.swal2-confirm {
+  border: 0;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: blue !important;
+  color: #fff;
+  font-size: 1em;
+}
+.swal2-title {
+  position: relative;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.8em 1em 0;
+  color: #595959;
+  font-size: 16px !important;
+  font-weight: 400;
+  text-align: left;
+  text-transform: none;
+  word-wrap: break-word;
+}

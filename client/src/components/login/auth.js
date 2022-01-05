@@ -4,7 +4,7 @@ import Main from './main'
 
 export const Auth = () => {
     return (
-        <Container className="mt-5">
+        <Container className="espaciado2 recuadro-reg-log">
             <Row>
                 <Main />
             </Row>

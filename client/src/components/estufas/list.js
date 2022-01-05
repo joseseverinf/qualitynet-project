@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 import MaterialTable from "@material-table/core";
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
-import { Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -82,69 +82,99 @@ const EstufaList = () => {
     {
       title: "Nombre",
       field: "stoveName",
-      editComponent: props => (
-        <TextField id='stoveName' label="Nombre" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          id="stoveName"
+          label="Nombre"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
       validate: (rowData) =>
         rowData.stoveName &&
-          (rowData.stoveName.length < 3 || rowData.stoveName.length > 50)
+        (rowData.stoveName.length < 3 || rowData.stoveName.length > 50)
           ? {
-            isValid: false,
-            helperText:
-              "El Nombre de la estufa debe tener más de 3 y menos de 50 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "El Nombre de la estufa debe tener más de 3 y menos de 50 caracteres.",
+            }
           : true,
     },
     {
       title: "Marca",
       field: "stoveBrand",
-      editComponent: props => (
-        <TextField id='stoveBrand' label="Marca" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          id="stoveBrand"
+          label="Marca"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
       validate: (rowData) =>
         rowData.stoveBrand && rowData.stoveBrand.length < 3
           ? {
-            isValid: false,
-            helperText:
-              "La Marca de la estufa debe contener mínimo 3 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "La Marca de la estufa debe contener mínimo 3 caracteres.",
+            }
           : true,
     },
     {
       title: "Modelo",
       field: "stoveModel",
-      editComponent: props => (
-        <TextField id='stoveModel' label="Modelo" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          id="stoveModel"
+          label="Modelo"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
       validate: (rowData) =>
         rowData.stoveModel && rowData.stoveBrand.length < 3
           ? {
-            isValid: false,
-            helperText:
-              "El Modelo de la estufa debe contener mínimo 3 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "El Modelo de la estufa debe contener mínimo 3 caracteres.",
+            }
           : true,
     },
     {
       title: "Código",
       field: "stoveCode",
-      editComponent: props => (
-        <TextField id='stoveCode' label="Código" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          id="stoveCode"
+          label="Código"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
       validate: (rowData) =>
         rowData.stoveModel && rowData.stoveBrand.length < 4
           ? {
-            isValid: false,
-            helperText:
-              "El Código de la estufa debe contener mínimo 4 caracteres.",
-          }
+              isValid: false,
+              helperText:
+                "El Código de la estufa debe contener mínimo 4 caracteres.",
+            }
           : true,
     },
     {
       title: "Color",
       field: "stoveColor",
-      editComponent: props => (
-        <TextField id='stoveColor' label="Color" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          id="stoveColor"
+          label="Color"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
       filtering: false,
     },
@@ -152,47 +182,79 @@ const EstufaList = () => {
       title: "País Origen",
       field: "stoveOrigin",
       filtering: false,
-      editComponent: props => (
-        <TextField id='stoveOrigin' label="País Origen" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          id="stoveOrigin"
+          label="País Origen"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
     },
     {
       title: "Cantidad",
       field: "stoveAmount",
       filtering: false,
-      editComponent: props => (
-        <TextField type="number" id='stoveAmount' label="Cantidad" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          type="number"
+          id="stoveAmount"
+          label="Cantidad"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
-      type: 'numeric'
+      type: "numeric",
     },
     {
       title: "Precio Unitario",
       field: "stoveUnitPrice",
       filtering: false,
-      type: 'currency',
+      type: "currency",
       currencySetting: {
-        locale: 'es',
-        currencyCode: 'CLP',
+        locale: "es",
+        currencyCode: "CLP",
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+        maximumFractionDigits: 0,
       },
-      editComponent: props => (
-        <TextField type="number" id='stoveUnitPrice' label="Precio Unitario" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      )
+      editComponent: (props) => (
+        <TextField
+          type="number"
+          id="stoveUnitPrice"
+          label="Precio Unitario"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
+      ),
     },
     {
       title: "Imágen",
       field: "stoveImage",
       filtering: false,
-      editComponent: props => (
-        <TextField id='stoveImage' label="Imágen" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-      )
+      editComponent: (props) => (
+        <TextField
+          id="stoveImage"
+          label="Imágen"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
+      ),
     },
     {
       title: "Características",
       field: "stoveCharacteristic",
-      editComponent: props => (
-        <TextField id='stoveCharacteristic' label="Características" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+      editComponent: (props) => (
+        <TextField
+          id="stoveCharacteristic"
+          label="Características"
+          variant="outlined"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
       filtering: false,
     },
@@ -200,183 +262,237 @@ const EstufaList = () => {
   ]);
 
   return (
-    <Col>
-      <MaterialTable
-        title=""
-        columns={columns}
-        data={estufas}
-        icons={tableIcons}
-        localization={{
-          toolbar: {
-            exportTitle: "Exportar",
-            searchTooltip: "Buscar",
-            searchPlaceholder: "Buscar",
-            showColumnsTitle: "Mostrar Columnas",
-          },
-          header: {
-            actions: "Acciones",
-          },
-          body: {
-            addTooltip: "Crear",
-            editTooltip: "Editar",
-            deleteTooltip: "Eliminar",
-            editRow: {
-              deleteText: "Está seguro que desea eliminar el Producto",
-              cancelTooltip: "Cancelar",
-              saveTooltip: "Aceptar",
-            },
-            emptyDataSourceMessage: "No hay registros que mostrar",
-          },
-          pagination: {
-            labelRowsSelect: "filas",
-            labelDisplayedRows: "{from}-{to} de {count}",
-            labelRowsPerPage: "Filas por página:",
-            firstAriaLabel: "Primera página",
-            firstTooltip: "Primera página",
-            previousAriaLabel: "Página anterior",
-            previousTooltip: "Página anterior",
-            nextAriaLabel: "Siguiente página",
-            nextTooltip: "Siguiente página",
-            lastAriaLabel: "Última página",
-            lastTooltip: "Última página",
-          },
-          grouping: {
-            placeholder: "Arrastra los encabezados aquí para agruparlos",
-            groupedBy: "Agrupados por: ",
-          },
-        }}
-        options={{
-          addRowPosition: "first",
-          searchFieldAlignment: "left",
-          exportMenu: [
-            {
-              label: "Exportar como PDF",
-              exportFunc: (cols, datas) => ExportPdf(cols, datas, "Productos"),
-            },
-            {
-              label: "Exportar como CSV",
-              exportFunc: (cols, datas) => ExportCsv(cols, datas, "Productos"),
-            },
-          ],
-          grouping: true,
-          filtering: true,
-          columnsButton: true,
-        }}
-        editable={{
-          onRowAdd: (newData) =>
-            new Promise((resolve, reject) => {
-              if (newData && Object.keys(newData).length !== 0) {
-                newData.active = true;
+    <>
+      <Container fluid className="espaciado">
+        <Row>
+          <Col>
+            <MaterialTable
+              title=""
+              columns={columns}
+              data={estufas}
+              icons={tableIcons}
+              localization={{
+                toolbar: {
+                  exportTitle: "Exportar",
+                  searchTooltip: "Buscar",
+                  searchPlaceholder: "Buscar",
+                  showColumnsTitle: "Mostrar Columnas",
+                },
+                header: {
+                  actions: "Acciones",
+                },
+                body: {
+                  addTooltip: "Crear",
+                  editTooltip: "Editar",
+                  deleteTooltip: "Eliminar",
+                  editRow: {
+                    deleteText: "Está seguro que desea eliminar el Producto",
+                    cancelTooltip: "Cancelar",
+                    saveTooltip: "Aceptar",
+                  },
+                  emptyDataSourceMessage: "No hay registros que mostrar",
+                },
+                pagination: {
+                  labelRowsSelect: "filas",
+                  labelDisplayedRows: "{from}-{to} de {count}",
+                  labelRowsPerPage: "Filas por página:",
+                  firstAriaLabel: "Primera página",
+                  firstTooltip: "Primera página",
+                  previousAriaLabel: "Página anterior",
+                  previousTooltip: "Página anterior",
+                  nextAriaLabel: "Siguiente página",
+                  nextTooltip: "Siguiente página",
+                  lastAriaLabel: "Última página",
+                  lastTooltip: "Última página",
+                },
+                grouping: {
+                  placeholder: "Arrastra los encabezados aquí para agruparlos",
+                  groupedBy: "Agrupados por: ",
+                },
+              }}
+              options={{
+                addRowPosition: "first",
+                searchFieldAlignment: "left",
+                exportMenu: [
+                  {
+                    label: "Exportar como PDF",
+                    exportFunc: (cols, datas) =>
+                      ExportPdf(cols, datas, "Productos"),
+                  },
+                  {
+                    label: "Exportar como CSV",
+                    exportFunc: (cols, datas) =>
+                      ExportCsv(cols, datas, "Productos"),
+                  },
+                ],
+                grouping: true,
+                filtering: true,
+                columnsButton: true,
+              }}
+              editable={{
+                onRowAdd: (newData) =>
+                  new Promise((resolve, reject) => {
+                    if (newData && Object.keys(newData).length !== 0) {
+                      newData.active = true;
 
-                axios
-                  .post("/api/estufas", newData)
-                  .then((resp) => {
-                    console.log(resp);
-                    if (resp.data.ok) {
-                      setEstufas([resp.data.data, ...estufas]);
+                      axios
+                        .post("/api/estufas", newData)
+                        .then((resp) => {
+                          console.log(resp);
+                          if (resp.data.ok) {
+                            setEstufas([resp.data.data, ...estufas]);
+                          } else {
+                            Swal.fire(
+                              "Error al crear el producto",
+                              resp.data.message,
+                              "error"
+                            );
+                          }
+                          resolve();
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          Swal.fire(
+                            "Error al crear el producto",
+                            error?.message,
+                            "error"
+                          );
+                          resolve();
+                        });
                     } else {
-                      Swal.fire(
-                        "Error al crear el producto",
-                        resp.data.message,
-                        "error"
-                      );
+                      resolve();
                     }
-                    resolve();
-                  })
-                  .catch((error) => {
-                    console.log(error);
+                  }),
+                onRowUpdate: (newData, oldData) =>
+                  new Promise((resolve, reject) => {
+                    axios
+                      .put(`/api/estufas/${newData._id}`, newData)
+                      .then((resp) => {
+                        if (resp.data.ok) {
+                          const dataUpdate = [...estufas];
+                          const target = dataUpdate.find(
+                            (el) => el.id === oldData.tableData.id
+                          );
+                          const index = dataUpdate.indexOf(target);
+                          dataUpdate[index] = newData;
+                          setEstufas([...dataUpdate]);
+                        } else {
+                          Swal.fire(
+                            "Error al actualizar el producto",
+                            resp.data.message,
+                            "error"
+                          );
+                        }
+                        resolve();
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                        Swal.fire(
+                          "Error al actualizar el producto",
+                          error?.message,
+                          "error"
+                        );
+                        resolve();
+                      });
+                  }),
+                onRowDelete: (oldData) =>
+                  new Promise((resolve, reject) => {
+                    oldData.active = false;
+                    axios
+                      .put(`/api/estufas/${oldData._id}`, oldData)
+                      .then((resp) => {
+                        if (resp.data.ok) {
+                          const dataDelete = [...estufas];
+                          const target = dataDelete.find(
+                            (el) => el.id === oldData.tableData.id
+                          );
+                          const index = dataDelete.indexOf(target);
+                          dataDelete.splice(index, 1);
+                          setEstufas([...dataDelete]);
+                        } else {
+                          Swal.fire(
+                            "Error al eliminar el producto",
+                            resp.data.message,
+                            "error"
+                          );
+                        }
+                        resolve();
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                        Swal.fire(
+                          "Error al eliminar el producto",
+                          error?.message,
+                          "error"
+                        );
+                        resolve();
+                      });
+                  }),
+              }}
+              actions={[
+                {
+                  icon: () => (
+                    <RefreshIcon color={"action"} sx={{ fontSize: 30 }} />
+                  ),
+                  tooltip: "Refrescar Datos",
+                  isFreeAction: true,
+                  onClick: () => setActualizar(!actualizar),
+                },
+                {
+                  icon: () => <VisibilityIcon color={"secondary"} />,
+                  tooltip: "Detalle",
+                  onClick: (event, rowData) =>
                     Swal.fire(
-                      "Error al crear el producto",
-                      error?.message,
-                      "error"
-                    );
-                    resolve();
-                  });
-              } else {
-                resolve();
-              }
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              axios
-                .put(`/api/estufas/${newData._id}`, newData)
-                .then((resp) => {
-                  if (resp.data.ok) {
-                    const dataUpdate = [...estufas];
-                    const target = dataUpdate.find(
-                      (el) => el.id === oldData.tableData.id
-                    );
-                    const index = dataUpdate.indexOf(target);
-                    dataUpdate[index] = newData;
-                    setEstufas([...dataUpdate]);
-                  } else {
-                    Swal.fire(
-                      "Error al actualizar el producto",
-                      resp.data.message,
-                      "error"
-                    );
-                  }
-                  resolve();
-                })
-                .catch((error) => {
-                  console.log(error);
-                  Swal.fire(
-                    "Error al actualizar el producto",
-                    error?.message,
-                    "error"
-                  );
-                  resolve();
-                });
-            }),
-          onRowDelete: (oldData) =>
-            new Promise((resolve, reject) => {
-              oldData.active = false;
-              axios
-                .put(`/api/estufas/${oldData._id}`, oldData)
-                .then((resp) => {
-                  if (resp.data.ok) {
-                    const dataDelete = [...estufas];
-                    const target = dataDelete.find(
-                      (el) => el.id === oldData.tableData.id
-                    );
-                    const index = dataDelete.indexOf(target);
-                    dataDelete.splice(index, 1);
-                    setEstufas([...dataDelete]);
-                  } else {
-                    Swal.fire(
-                      "Error al eliminar el producto",
-                      resp.data.message,
-                      "error"
-                    );
-                  }
-                  resolve();
-                })
-                .catch((error) => {
-                  console.log(error);
-                  Swal.fire(
-                    "Error al eliminar el producto",
-                    error?.message,
-                    "error"
-                  );
-                  resolve();
-                });
-            }),
-        }}
-        actions={[
-          {
-            icon: () => <RefreshIcon color={"action"} sx={{ fontSize: 30 }} />,
-            tooltip: "Refrescar Datos",
-            isFreeAction: true,
-            onClick: () => setActualizar(!actualizar),
-          },
-          {
-            icon: () => <VisibilityIcon color={"secondary"} />,
-            tooltip: "Detalle",
-            onClick: (event, rowData) => Swal.fire(JSON.stringify(rowData)),
-          },
-        ]}
-      />
-    </Col>
+                      {
+                        html: `
+              <row>
+                  <h3>Estás visualizando una Estufa:</h3>
+                  <hr>
+                  <col>
+                          <p><b>Nombre:</b> ${rowData.stoveName}</p>
+                          <p><b>Marca:</b> ${rowData.stoveBrand}</p>
+                          <p><b>Modelo:</b> ${rowData.stoveModel}</p>
+                          <p><b>Código:</b> ${rowData.stoveCode}</p>
+                          <p><b>Color:</b> ${rowData.stoveColor}</p>
+                          <p><b>País de Origen:</b>${rowData.stoveOrigin}</p>          
+                          <p><b>Precio:</b> ${rowData.stoveAmount}</p>
+                          <p><b>Precio Unitario:</b> ${rowData.stoveUnitPrice}</p>
+                          <p><b>Imagen:</b> <img src=${rowData.stoveImage} alt="Imagen" width="100"/></p>
+                          <p><b>Características:</b> ${rowData.stoveCharacteristic}</p>
+                  </col>
+              </row>
+              `,
+                        focusConfirm: false,
+                        focusCancel: false,
+                        customClass: {
+                          container: "swal-wide",
+                          popup: "swal-wide",
+                          header: "swal-wide",
+                          closeButton: "swal-wide",
+                          icon: "swal-wide",
+                          image: "swal-wide",
+                          content: "swal-wide",
+                          actions: "swal-wide",
+                          confirmButton: "swal-wide",
+                          cancelButton: "swal-wide",
+                          footer: "swal-wide",
+                        },
+                        showClass: {
+                          popup: "animated fadeIn faster",
+                          actions: "animated fadeIn faster",
+                          confirmButton: "animated zoomIn faster",
+                          cancelButton: "animated zoomIn faster",
+                        },
+                      },
+                      JSON.stringify(rowData)
+                    ),
+                },
+              ]}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
