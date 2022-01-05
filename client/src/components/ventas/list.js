@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters';
-import { Col } from 'reactstrap';
+import { Container, Row, Col } from "reactstrap";
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -204,6 +204,9 @@ const VentasList = (props) => {
 
 
     return (
+        <>
+      <Container fluid className="espaciado">
+        <Row>
         <Col>
             <MaterialTable
                 title=""
@@ -343,11 +346,69 @@ const VentasList = (props) => {
                     {
                         icon: () => <VisibilityIcon color={'secondary'} />,
                         tooltip: 'Detalle',
-                        onClick: (event, rowData) => Swal.fire(JSON.stringify(rowData))
-                    }
-                ]}
+                        onClick: (event, rowData) => {
+                            const _clientes = [...clientes];
+                            const _estufas = [...estufas];
+                    
+                            const _estufa = _estufas.find(
+                             (el) => el.id === rowData.product
+                            );
+
+                        const _cliente = _clientes.find(
+                        (el) => el.id === rowData.client
+                        );
+                        const _rowData = { ...rowData };
+                        _rowData["client"] = `${_cliente.firstName} ${_cliente.lastName}`;
+                        _rowData["product"] = `${_estufa.stoveBrand} ${_estufa.stoveModel}`;
+                        
+                    Swal.fire(
+                      {
+                        html: `
+              <row>
+                  <h3>Estás visualizando el registro de venta:</h3>
+                  <hr>
+                  <col>
+                          <p><b>Cliente:</b> ${_rowData.client}</p>
+                          <p><b>Producto:</b> ${_rowData.product}</p>
+                          <p><b>Descuento:</b> ${_rowData.discount}</p>
+                          <p><b>Cantidad:</b> ${_rowData.quantitie}</p>
+                          <p><b>Precio de Venta:</b> ${_rowData.salePrice}</p>
+                          <p><b>Método de Pago:</b>${_rowData.paymentMethod}</p>          
+                          <p><b>Observaciones:</b> ${_rowData.observations}</p>
+                  </col>
+              </row>
+              `,
+                        focusConfirm: false,
+                        focusCancel: false,
+                        customClass: {
+                          container: "swal-wide",
+                          popup: "swal-wide",
+                          header: "swal-wide",
+                          closeButton: "swal-wide",
+                          icon: "swal-wide",
+                          image: "swal-wide",
+                          content: "swal-wide",
+                          actions: "swal-wide",
+                          confirmButton: "swal-wide",
+                          cancelButton: "swal-wide",
+                          footer: "swal-wide",
+                        },
+                        showClass: {
+                          popup: "animated fadeIn faster",
+                          actions: "animated fadeIn faster",
+                          confirmButton: "animated zoomIn faster",
+                          cancelButton: "animated zoomIn faster",
+                        },
+                      },
+                      JSON.stringify(rowData)
+                    )},
+                },
+              ]}
             />
-        </Col>
+          </Col>
+        </Row>
+      </Container>
+    </>
     )
 }
 

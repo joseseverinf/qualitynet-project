@@ -16,7 +16,7 @@ const MantenimientosAdmin = (props) => {
     <Container fluid className="recuadro-nc">
         <Row>
             <Col xs={4} sm={4} md={3} lg={3} className="espaciado4 alineacion">
-                <img src={Logo} width="150" alt='logo'/>
+            <Link to={`/`}><img src={Logo} width="150" alt='logo'/></Link>
             </Col>
             <Col xs={4} sm={4} md={6} lg={6} className="espaciado4 alineacion-left">
             <h3><FiSettings color="grey" style={{ marginRight: '10px', fontSize: '50', textAlign: 'center'}}/>Instalación y Mantenciones</h3>

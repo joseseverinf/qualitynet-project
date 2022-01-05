@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Navbar, NavbarToggler, Collapse, NavbarText } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 
 const ClienteFooter = (props) => {
@@ -8,14 +8,8 @@ const ClienteFooter = (props) => {
         <>
          <Container>
             <Row>
-                <Col>
-                    <Navbar color="danger" dark expand="md" fixed="bottom" full light className="estilo-footer" >
-
-                        <NavbarText>
-                        <p>CONTACTO@QUALITYPELLETS.CL · +56 9 6509 8393 Quality Pellets Chile, es representante de 2D Electrónica en la V Región</p>
-                        </NavbarText>
-
-                    </Navbar>
+                <Col className="footer">
+                    <p><a href="https://www.qualitypellets.cl">Sitio Web Quality Pellets</a> · +56 9 6509 8393 Quality Pellets Chile, es representante de 2D Electrónica en la V Región</p>
                 </Col>
             </Row>
         </Container>

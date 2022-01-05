@@ -1,19 +1,39 @@
 import React from "react";
 import Logo from "./images/Logo.png";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { ImUsers } from "react-icons/im";
 import { MdFireplace } from "react-icons/md";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { FiSettings } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import UserContext from '../context/user-context';
+import { useContext }from 'react';
 
 const ClienteDashboard = (props) => {
   const navigate = useNavigate();
+  const context = useContext(UserContext);
+
+  const logout = e => {
+      context.logout();
+  }
 
   return (
     <>
       <Container fluid className="espaciado recuadro-reg-log">
+      <Row>
+          <Col className="cs-logout">
+         
+              <Button color="primary" size= "md" onClick={logout}> 
+                <FiLogOut color="white"
+                      style={{
+                        marginRight: "10px",
+                        fontSize: "25",
+                        textAlign: "center",
+                      }}/>Cerrar Sesión</Button>
+            </Col>
+       </Row>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12} className="alineacion">
             <img src={Logo} width="200" alt="logo" />

@@ -16,7 +16,7 @@ const Main = (props) => {
     }
 
     return (
-        <Container fluid className="recuadro-reg-log">
+        <Container className="recuadro-reg-log">
             <Row>
                 <Col xs={12} sm={6} md={6} lg={6} className="espaciado2 alineacion">
                     <img src={Logo} width="300" alt='logo'/>
