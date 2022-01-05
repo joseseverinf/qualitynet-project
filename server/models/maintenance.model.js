@@ -16,17 +16,12 @@ const MaintenanceSchema = new mongoose.Schema({
         required: [true, 'El campo estado de la mantención es requerido (las opciones viables son "Agendado", "Realizada", "Confirmada", "Cancelada")'],
     },
     technical: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
         required: [true, 'El técnico asignado a la mantención es requerido']
     },
     scheduledDate: {
         type: Date,
         required: [true, 'El campo Fecha Mantención Agendada es requerido'],
-    },
-    scheduledTime: {
-        type: String,
-        required: [true, 'El campo hora agendada es requerido'],
     },
     observations: {
         type: String,

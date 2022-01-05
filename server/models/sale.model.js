@@ -12,18 +12,18 @@ const SaleSchema = new mongoose.Schema({
         ref: "Stove",
         required: [true, 'El Cliente es requerido']
     },
-    productPrice: {
-        //type: mongoose.Schema.Types.ObjectId,
-        //ref: "Client",
-        type: Number,
-        required: [true, 'El precio del producto es requerido']
-    },
-    agreement: {
-        //type: mongoose.Schema.Types.ObjectId,
-        //ref: "Client",
-        type: Boolean,
-        required: [true, 'El Cliente es requerido']
-    },
+    // productPrice: {
+    //     //type: mongoose.Schema.Types.ObjectId,
+    //     //ref: "Client",
+    //     type: Number,
+    //     required: [true, 'El precio del producto es requerido']
+    // },
+    // agreement: {
+    //     //type: mongoose.Schema.Types.ObjectId,
+    //     //ref: "Client",
+    //     type: Boolean,
+    //     required: [true, 'El Cliente es requerido']
+    // },
     discount: {
         //type: mongoose.Schema.Types.ObjectId,
         //ref: "Client",
@@ -38,23 +38,24 @@ const SaleSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'El campo precio es requerido'],
     },
-    saleDate: {
-        type: Date,
-        required: [true, 'El campo fecha venta es requerido'],
-    },
-    seller: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: [true, 'El vendedor  es requerido']
-    },
+    // saleDate: {
+    //     type: Date,
+    //     required: [true, 'El campo fecha venta es requerido'],
+    // },
+    // seller: {
+    //     //type: mongoose.Schema.Types.ObjectId,
+    //     //ref: "User",
+    //     type: String,
+    //     required: [true, 'El vendedor  es requerido']
+    // },
     paymentMethod: {
         type: String,
         required: [true, 'El campo metodo de pago es requerido'],
     },
-    invoiceNumber: {
-        type: Number,
-        required: [true, 'El campo hora agendada es requerido'],
-    },
+    // invoiceNumber: {
+    //     type: Number,
+    //     required: [true, 'El campo hora agendada es requerido'],
+    // },
     observations: {
         type: String,
     },

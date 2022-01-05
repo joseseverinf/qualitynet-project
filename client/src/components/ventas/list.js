@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import { forwardRef, useEffect, useMemo, useState } from 'react';
 
 import axios from 'axios';
 import Swal from "sweetalert2";
@@ -48,11 +48,9 @@ const tableIcons = {
 
 let clookup = {};
 let elookup = {};
-const slookup = { 'Agendado': 'Agendado', 'Realizado': 'Realizado', 'Cancelado': 'Cancelado' };
-const status = ['Agendado', 'Realizado', 'Cancelado'];
 
-const MantenimientoList = (props) => {
-    const [mantenimientos, setMantenimientos] = useState([]);
+const VentasList = (props) => {
+    const [ventas, setVentas] = useState([]);
 
     const [actualizar, setActualizar] = useState(false);
     const [clientes, setClientes] = useState({});
@@ -87,76 +85,16 @@ const MantenimientoList = (props) => {
                 Swal.fire('Error', error.message, 'error'));
     }, [actualizar]);
 
-    // useEffect(() => {
-    //     axios.get('/api/estufas')
-    //         .then(resp => {
-    //             setEstufas(resp.data.data);
-    //             let _lookup = {};
-    //             resp.data.data.forEach(element => {
-    //                 _lookup[element._id.toString()] = `${element.stoveBrand} ${element.stoveModel}`;
-    //             });
-    //             elookup = _lookup;
-    //             setReloadcolum(!reloadcolum);
-    //         })
-    //         .catch(error =>
-    //             Swal.fire('Error', error.message, 'error'));
-    // }, [actualizar]);
-
     useEffect(() => {
-        axios.get('/api/mantenciones')
+        axios.get('/api/ventas')
             .then(resp => {
-                setMantenimientos(resp.data.data);
+                setVentas(resp.data.data);
                 //setReloadcolum(!reloadcolum);
             })
             .catch(error => {
                 Swal.fire('Error', error.message, 'error');
             })
     }, [actualizar]);
-
-    //     useEffect(() => {
-    //     new Promise((resolve, reject) => {
-    //         axios.get('/api/estufas')
-    //             .then(resp => {
-    //                 console.log(resp.data.data);
-    //                 setClientes(resp.data.data);
-    //                 //console.log('tenemos clientes');
-    //                 let _lookup = {};
-    //                 resp.data.data.forEach(element => {
-    //                     _lookup[element._id.toString()] = `${element.firstName} ${element.lastName}`;
-    //                 });
-    //                 clookup = _lookup;
-    //                 axios.get("/api/estufas")
-    //                     .then((estufas) => {
-    //                         //setEstufas(resp.data.data);
-    //                         _lookup = {};
-    //                         estufas.data.data.forEach(element => {
-    //                             _lookup[element._id.toString()] = element.stoveModel;
-    //                         });
-    //                         plookup = _lookup;
-    //                         axios.get('/api/mantenciones')
-    //                             .then(resp => {
-    //                                 setMantenimientos(resp.data.data);
-    //                                 console.log('tenemos mantenciones');
-    //                                 setReloadcolum(!reloadcolum);
-    //                                 resolve();
-    //                             })
-    //                             .catch(error => {
-    //                                 Swal.fire('Error', error.message, 'error');
-    //                                 resolve();
-    //                             })
-    //                     })
-    //                     .catch((error) => Swal.fire("Error", error.message, "error"));
-
-
-
-    //             })
-    //             .catch(error => {
-    //                 Swal.fire('Error', error.message, 'error');
-    //                 resolve();
-    //             })
-    //     })
-
-    // }, [actualizar]);
 
     const columns = useMemo(() => ([
         { title: 'Id', field: "_id", hidden: true, filtering: false },
@@ -215,43 +153,44 @@ const MantenimientoList = (props) => {
             )
         },
         {
-            title: 'Estado',
-            field: 'maintenanceStatus',
-            lookup: slookup,
+            title: 'Descuento',
+            field: 'discount',
             editComponent: props => (
-                <Autocomplete
-                    id="maintenanceStatus"
-                    options={status}
-                    getOptionLabel={option => option}
-                    renderInput={params => {
-                        return (
-                            <TextField
-                                {...params}
-                                variant="outlined"
-                                label={props.value}
-                                fullWidth
-                            />
-                        );
-                    }}
-                    onChange={(e, newValue) => {
-                        if (newValue) {
-                            props.onChange(newValue)
-                        }
-                    }}
-                />
+                <TextField id='discount' label="Descuento" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
             )
         },
         {
-            title: 'Técnico',
-            field: 'technical',
+            title: 'Cantidad',
+            field: 'quantitie',
             editComponent: props => (
-                <TextField id='technical' label="Técnico" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+                <TextField id='quantitie' label="Cantidad" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
             )
         },
         {
-            title: 'Fecha',
-            field: 'scheduledDate',
-            type: 'datetime'
+            title: 'Precio de Venta',
+            field: 'salePrice',
+            editComponent: props => (
+                <TextField id='salePrice' label="Precio de Venta" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            )
+        },
+        // {
+        //     title: 'Fecha',
+        //     field: 'saleDate',
+        //     type: 'datetime'
+        // },
+        // {
+        //     title: 'Vendedor',
+        //     field: 'seller',
+        //     editComponent: props => (
+        //         <TextField id='seller' label="Vendedor" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+        //     )
+        // },
+        {
+            title: 'Método de Pago',
+            field: 'paymentMethod',
+            editComponent: props => (
+                <TextField id='paymentMethod' label="Método de Pago" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+            )
         },
         {
             title: 'Observaciones',
@@ -269,7 +208,7 @@ const MantenimientoList = (props) => {
             <MaterialTable
                 title=""
                 columns={columns}
-                data={mantenimientos}
+                data={ventas}
                 icons={tableIcons}
                 localization={{
                     toolbar: {
@@ -332,20 +271,20 @@ const MantenimientoList = (props) => {
                         new Promise((resolve, reject) => {
                             if (newData && Object.keys(newData).length !== 0) {
                                 newData.active = true;
-                                axios.post('/api/mantenciones', newData)
+                                axios.post('/api/ventas', newData)
                                     .then(resp => {
                                         if (resp.data.ok) {
-                                            setMantenimientos([
+                                            setVentas([
                                                 resp.data.data,
-                                                ...mantenimientos,
+                                                ...ventas,
                                             ]);
                                         } else {
-                                            Swal.fire('Error al crear el Mantenimiento', resp.data.message, 'error');
+                                            Swal.fire('Error al crear la Venta', resp.data.message, 'error');
                                         }
                                         resolve();
                                     }).catch(error => {
                                         console.log(error);
-                                        Swal.fire('Error al crear el Mantenimiento', error?.message, 'error');
+                                        Swal.fire('Error al crear la Venta', error?.message, 'error');
                                         resolve();
                                     });
                             } else {
@@ -354,42 +293,42 @@ const MantenimientoList = (props) => {
                         }),
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
-                            axios.put(`/api/mantenciones/${newData._id}`, newData)
+                            axios.put(`/api/ventas/${newData._id}`, newData)
                                 .then(resp => {
                                     if (resp.data.ok) {
-                                        const dataUpdate = [...mantenimientos];
+                                        const dataUpdate = [...ventas];
                                         const target = dataUpdate.find((el) => el.id === oldData.tableData.id);
                                         const index = dataUpdate.indexOf(target);
                                         dataUpdate[index] = newData;
-                                        setMantenimientos([...dataUpdate]);
+                                        setVentas([...dataUpdate]);
                                     } else {
-                                        Swal.fire('Error al actualizar el Mantenimiento', resp.data.message, 'error');
+                                        Swal.fire('Error al actualizar la Venta', resp.data.message, 'error');
                                     }
                                     resolve();
                                 }).catch(error => {
                                     console.log(error);
-                                    Swal.fire('Error al actualizar el Mantenimiento', error?.message, 'error');
+                                    Swal.fire('Error al actualizar la Venta', error?.message, 'error');
                                     resolve();
                                 });
                         }),
                     onRowDelete: oldData =>
                         new Promise((resolve, reject) => {
                             oldData.active = false;
-                            axios.put(`/api/mantenciones/${oldData._id}`, oldData)
+                            axios.put(`/api/ventas/${oldData._id}`, oldData)
                                 .then(resp => {
                                     if (resp.data.ok) {
-                                        const dataDelete = [...mantenimientos];
+                                        const dataDelete = [...ventas];
                                         const target = dataDelete.find((el) => el.id === oldData.tableData.id);
                                         const index = dataDelete.indexOf(target);
                                         dataDelete.splice(index, 1);
-                                        setMantenimientos([...dataDelete]);
+                                        setVentas([...dataDelete]);
                                     } else {
-                                        Swal.fire('Error al eliminar el Mantenimiento', resp.data.message, 'error');
+                                        Swal.fire('Error al eliminar la Venta', resp.data.message, 'error');
                                     }
                                     resolve();
                                 }).catch(error => {
                                     console.log(error);
-                                    Swal.fire('Error al eliminar el Mantenimiento', error?.message, 'error');
+                                    Swal.fire('Error al eliminar la Venta', error?.message, 'error');
                                     resolve();
                                 });
                         }),
@@ -412,4 +351,4 @@ const MantenimientoList = (props) => {
     )
 }
 
-export default MantenimientoList;
+export default VentasList;

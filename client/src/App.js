@@ -12,6 +12,7 @@ import ClienteView from "./components/clientes/view";
 import EstufaAdmin from "./components/estufas/admin";
 import EstufasView from "./components/estufas/view";
 import './App.css';
+import VentasAdmin from "./components/ventas/admin";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/register" element={<RegisterForm />}/>
             <Route path="/clientes/*" element={<ClientesAdmin />} />
             <Route path="/mantenciones/*" element={<MantenimientosAdmin />} />
+            <Route path="/ventas/*" element={<VentasAdmin />} />
             <Route path="/clientes/dashboard" element={<ClienteDashboard />} />
             <Route path="/clientes/view" element={<ClienteView />} />
             <Route path="/estufas/*" element={<EstufaAdmin />} />

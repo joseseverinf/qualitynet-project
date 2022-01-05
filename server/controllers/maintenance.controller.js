@@ -32,14 +32,14 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.update = (req, resp) => {
-    Maintenance.findOneAndUpdate({_id: req.params.id }, req.body, { new: true , runValidators: true})
-        .then(data => resp.status(200).json({ ok: true, message: 'Registro actualizado correctamente', data: estufa}))
+    const client = req.body;
+    Maintenance.findOneAndUpdate({ _id: req.params.id }, client)
+        .then(data => resp.status(200).json({ ok: true, message: 'Registro actualizado correctamente', data: client }))
         .catch(error => {
-            console.log('EDIT', error);
-            if(error.name === 'ValidationError'){
-                resp.status(500).json({ok: false, message: error.message, error: error})
-            } else{
-                resp.status(500).json({ok: false, message: 'Error al  actualizar el registro'})
+            if (error.name === 'ValidationError') {
+                resp.status(500).json({ ok: false, message: error.message, error: error })
+            } else {
+                resp.status(500).json({ ok: false, message: 'Error al  actualizar el registro' })
             }
         });
 }
