@@ -143,7 +143,6 @@ const EstufaList = () => {
     {
       title: "Color",
       field: "stoveColor",
-      type: "color",
       editComponent: props => (
         <TextField id='stoveColor' label="Color" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
       ),
