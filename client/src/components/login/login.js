@@ -1,10 +1,9 @@
 import React from 'react';
-import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Logo from '../home/images/Logo.png';
-import Swal from "sweetalert2";
+import UserContext from '../context/user-context'
 
 const initialState = {
     username: '',
@@ -14,6 +13,7 @@ const initialState = {
 const LoginForm = (props) => {
 
     const [inputs, setInputs] = useState(initialState);
+    const context = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -25,13 +25,10 @@ const LoginForm = (props) => {
         });
     }
 
-    const goIn = (e) => {
-        e?.stopPropagation();
-        navigate('/');
-    }
+
     const goHome = (e) => {
         e?.stopPropagation();
-        navigate('/auth');
+        navigate('/main');
     }
     const goReg = (e) => {
         e?.stopPropagation();
@@ -40,20 +37,8 @@ const LoginForm = (props) => {
 
     const formSubmit = (e) => {
         e.preventDefault();
-        axios.post('/api/login', inputs)
-            .then(resp => {
-                if (resp.data.ok) {
-                    Swal.fire('Login', resp.data.message, 'success');
-                    goIn();
-                } else {
-                    Swal.fire('Login', resp.data.message, 'error');
-                    goHome();
-                }
-            })
-            .catch(err => {
-                console.log(err);
-
-            })
+        context.login(inputs);
+        setInputs(initialState);
     }
 
     return (

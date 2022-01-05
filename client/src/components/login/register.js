@@ -25,7 +25,7 @@ const RegisterForm = (props) => {
     }
     const goHome = (e) => {
         e?.stopPropagation();
-        navigate('/auth');
+        navigate('/main');
     }
     const goLogin = (e) => {
         e?.stopPropagation();
@@ -73,6 +73,7 @@ const RegisterForm = (props) => {
                             <option value="">Seleccione un Perfil</option>
                             <option value="admin">Administrador</option>
                             <option value="user">Usuario</option>
+                            <option value="user">Técnico</option>
                         </Input>
                     </FormGroup>
                     <FormGroup>

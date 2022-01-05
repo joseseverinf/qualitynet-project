@@ -14,7 +14,6 @@ import EstufaAdmin from "../estufas/admin";
 import VentasAdmin from "../ventas/admin";
 import MantenimientoAdmin from "../mantenimientos/admin";
 
-
 const Home = (props) => {
     const SESSION_USER = 'SESSION_USER';
 
@@ -41,7 +40,7 @@ const Home = (props) => {
     const logout = () => {
         setUser(null);
         sessionStorage.clear();
-        navigate('/auth');
+        navigate('/main');
     }    
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const Home = (props) => {
             setUser(JSON.parse(sessionStorage.getItem(SESSION_USER)));
             navigate('/');
         } else {
-            navigate('/auth');
+            navigate('/main');
         }
 
     }, []);
@@ -58,10 +57,10 @@ const Home = (props) => {
         <UserContext.Provider value={{ user, setUser, login, logout }}>
             <ClienteTop />
             <Routes>
-            <Route path="/auth" element={<Main />} />
-            <Route path="/*" element={<ClienteDashboard />} />
+            <Route path="/main" element={<Main />} />
             <Route path="/login" element={<LoginForm />}/>
             <Route path="/register" element={<RegisterForm />}/>
+            <Route path="/*" element={<ClienteDashboard />} />
             <Route path="/clientes/*" element={<ClientesAdmin />} />
             <Route path="/estufas/*" element={<EstufaAdmin />} />
             <Route path="/ventas/*" element={<VentasAdmin />} />
