@@ -52,3 +52,12 @@ module.exports.login = (req, res) => {
             }
         }).catch(error => res.json({ ok: false, message: 'Credenciales incorrectas' }));
 }
+
+module.exports.list = (req, resp) => {
+    User.find()
+        .then(data => resp.status(200).json({ ok: true, message: 'Usuarios', data: data}))
+        .catch(error => {
+            console.log('LIST', error);
+            resp.status(500).json({ok: false, message: 'Error al obtener los usuarios'})
+        });
+}
