@@ -107,7 +107,7 @@ const ClienteList = () => {
         },
         { title: 'Convenio', field: 'agreement', type: 'boolean' },
         {
-            title: 'Descuento',
+            title: 'Descuento %',
             field: 'discount',
             type: 'numeric',
             editComponent: props => (
@@ -280,7 +280,7 @@ const ClienteList = () => {
                                                 <p><b>Teléfono:</b> ${rowData.phone}</p>
                                                 <p><b>Email:</b> ${rowData.email}</p>
                                                 <p><b>Convenio:</b> ${rowData.agreement}</p>
-                                                <p><b>Descuento:</b> ${rowData.discount}</p>                                      
+                                                <p><b>Descuento:</b> ${rowData.discount}</p>
                                         </col>
                                     </row>
                                     `,

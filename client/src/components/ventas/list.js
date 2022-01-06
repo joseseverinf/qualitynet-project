@@ -49,6 +49,15 @@ const tableIcons = {
 let clookup = {};
 let elookup = {};
 
+const slookup = {
+    Efectivo: "Efectivo",
+    Crédito: "Crédito",
+    Débito: "Débito",
+    Transferencia: "Transferencia",
+};
+
+const formaspago = ["Efectivo", "Crédito", "Débito", "Transferencia"];
+
 const VentasList = (props) => {
     const [ventas, setVentas] = useState([]);
 
@@ -153,24 +162,33 @@ const VentasList = (props) => {
             )
         },
         {
-            title: 'Descuento',
+            title: 'Descuento %',
             field: 'discount',
+            type: 'numeric',
             editComponent: props => (
-                <TextField id='discount' label="Descuento" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+                <TextField id='discount' type="number" label="Descuento" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
             )
         },
         {
             title: 'Cantidad',
             field: 'quantitie',
+            type: 'numeric',
             editComponent: props => (
-                <TextField id='quantitie' label="Cantidad" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+                <TextField id='quantitie' type="number" label="Cantidad" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
             )
         },
         {
             title: 'Precio de Venta',
             field: 'salePrice',
+            type: "currency",
+            currencySetting: {
+                locale: "es",
+                currencyCode: "CLP",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            },
             editComponent: props => (
-                <TextField id='salePrice' label="Precio de Venta" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+                <TextField id='salePrice' type="number" label="Precio de Venta" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
             )
         },
         // {
@@ -188,9 +206,29 @@ const VentasList = (props) => {
         {
             title: 'Método de Pago',
             field: 'paymentMethod',
-            editComponent: props => (
-                <TextField id='paymentMethod' label="Método de Pago" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
-            )
+            lookup: slookup,
+            editComponent: (props) => (
+            <Autocomplete
+                id="paymentMethod"
+                options={formaspago}
+                getOptionLabel={(option) => option}
+                renderInput={(params) => {
+                return (
+                    <TextField
+                    {...params}
+                    variant="outlined"
+                    label={props.value}
+                    fullWidth
+                    />
+                );
+                }}
+                onChange={(e, newValue) => {
+                    if (newValue) {
+                        props.onChange(newValue);
+                    }
+                }}
+            />
+            ),
         },
         {
             title: 'Observaciones',
