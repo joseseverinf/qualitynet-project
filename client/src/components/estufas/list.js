@@ -243,6 +243,7 @@ const EstufaList = () => {
           onChange={(e) => props.onChange(e.target.value)}
         />
       ),
+      render: rowData => (<img src={rowData.stoveImage} style={{width: 60, borderRadius: '50%'}}/>)
     },
     {
       title: "Características",
