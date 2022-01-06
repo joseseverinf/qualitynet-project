@@ -353,7 +353,7 @@ const VentasList = (props) => {
                                                 (el) => el.id === newData.client
                                             );
 
-                                            if(parseInt(newData.quantitie) < parseInt(_estufa.stoveAmount)){
+                                            if(parseInt(newData.quantitie) <= parseInt(_estufa.stoveAmount)){
                                                 var globalPrice = (parseInt(_estufa.stoveUnitPrice) * parseInt(newData.quantitie));
                                                 var discountByClient = Math.round(globalPrice * parseInt(_cliente.discount)/100);
                                                 var discountBySale = Math.round(globalPrice * parseInt(newData.discount)/100);

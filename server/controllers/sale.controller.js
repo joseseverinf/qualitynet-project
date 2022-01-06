@@ -1,15 +1,39 @@
 const Sale = require('../models/sale.model');
+const Stove = require('../models/stove.model');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/jwt.config');
 
 module.exports.create = (req, res) => {
+    const quantitie = req.body.quantitie;
+    const productId = req.body.product;
     const payload = jwt.decode(req.cookies.usertoken, secret);
     if (payload) {
         req.body.userId = payload.id;
         Sale.create(req.body)
             .then(data => {
                 Sale.findById(data._id).populate('user', '-password')
-                    .then(data => res.json({ ok: true, message: 'Registro agregado correctamente', data: data }))
+                    .then(data => {
+                        Stove.findById(productId)
+                            .then(stove => {
+                                let stoveAmount = stove._doc.stoveAmount - quantitie;
+                                const _stove = {...stove._doc};
+                                _stove['stoveAmount'] = stoveAmount;
+                                Stove.findOneAndUpdate({_id: productId }, _stove, { new: true , runValidators: true})
+                                    .then(dataUpdate => res.status(200).json({ ok: true, message: 'Registro actualizado correctamente', data: data}))
+                                    .catch(error => {
+                                        console.log('EDIT', error);
+                                        if(error.name === 'ValidationError'){
+                                            res.status(500).json({ok: false, message: error.message, error: error})
+                                        } else{
+                                            res.status(500).json({ok: false, message: 'Error al  actualizar el registro'})
+                                        }
+                                    });
+                            })
+                            .catch(error => {
+                                console.log('GET', error);
+                                res.status(500).json({ok: false, message: 'Error al obtener el registro'})
+                            });
+                    })
                     .catch(error => {
                         console.log('CREATE', error);
                         if (error.name == 'ValidationError')
