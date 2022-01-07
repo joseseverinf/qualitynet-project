@@ -67,6 +67,9 @@ mongoose
 
 Estructura del Server
 
-Layout de la App QualityNET (Ver PDF, no terminado aun.)
+Layout de la App QualityNET (Ver PDF.)
 
-
+Equipo a Cargo:
+José Severin Front-End
+Carlos Reyes Validaciones Backend y Front-End
+David Pardo Integración Backend
