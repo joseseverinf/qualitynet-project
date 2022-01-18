@@ -89,6 +89,8 @@ const EstufaList = () => {
           variant="outlined"
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
+          helperText={props.helperText}
+          error={props.error}
         />
       ),
       validate: (rowData) =>
@@ -111,6 +113,8 @@ const EstufaList = () => {
           variant="outlined"
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
+          helperText={props.helperText}
+          error={props.error}
         />
       ),
       validate: (rowData) =>
@@ -132,10 +136,12 @@ const EstufaList = () => {
           variant="outlined"
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
+          helperText={props.helperText}
+          error={props.error}
         />
       ),
       validate: (rowData) =>
-        rowData.stoveModel && rowData.stoveBrand.length < 3
+        rowData.stoveModel && rowData.stoveModel.length < 3
           ? {
               isValid: false,
               helperText:
@@ -153,10 +159,12 @@ const EstufaList = () => {
           variant="outlined"
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
+          helperText={props.helperText}
+          error={props.error}
         />
       ),
       validate: (rowData) =>
-        rowData.stoveModel && rowData.stoveBrand.length < 4
+        rowData.stoveCode && rowData.stoveCode.length < 4
           ? {
               isValid: false,
               helperText:
@@ -204,6 +212,7 @@ const EstufaList = () => {
           variant="outlined"
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
+          defaultValue={0}
         />
       ),
       type: "numeric",
@@ -223,12 +232,22 @@ const EstufaList = () => {
         <TextField
           type="number"
           id="stoveUnitPrice"
-          label="Precio Unitario"
+          label="Precio Unitario CLP"
           variant="outlined"
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}
+          helperText={props.helperText}
+          error={props.error}
         />
       ),
+      validate: (rowData) =>
+        rowData.stoveUnitPrice && rowData.stoveUnitPrice <= 0
+          ? {
+              isValid: false,
+              helperText:
+                "El Precio Unitario debe ser mayor a 0.",
+            }
+          : true,
     },
     {
       title: "Imágen",
