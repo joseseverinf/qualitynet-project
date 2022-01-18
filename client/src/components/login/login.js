@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineForm } from "react-icons/ai";
 import Logo from "../home/images/Logo.png";
 import Swal from "sweetalert2";
+import UserContext from "../context/user-context";
 
 const initialState = {
   username: "",
@@ -24,6 +25,7 @@ const initialState = {
 
 const LoginForm = (props) => {
   const [inputs, setInputs] = useState(initialState);
+  const context = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -50,20 +52,22 @@ const LoginForm = (props) => {
 
   const formSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("/api/login", inputs)
-      .then((resp) => {
-        if (resp.data.ok) {
-          Swal.fire("Login", resp.data.message, "success");
-          goIn();
-        } else {
-          Swal.fire("Login", resp.data.message, "error");
-          goHome();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    context.login(inputs);
+    // axios
+    //   .post("/api/login", inputs)
+    //   .then((resp) => {
+    //     if (resp.data.ok) {
+    //       Swal.fire("Login", resp.data.message, "success");
+    //       goIn();
+    //     } else {
+    //       Swal.fire("Login", resp.data.message, "error");
+    //       goHome();
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    
   };
 
   return (

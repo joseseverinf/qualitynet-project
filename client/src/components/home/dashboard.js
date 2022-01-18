@@ -9,23 +9,22 @@ import { FiSettings } from "react-icons/fi";
 import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import UserContext from '../context/user-context';
-import { useContext }from 'react';
+import { useContext } from 'react';
 
 const ClienteDashboard = (props) => {
-  const navigate = useNavigate();
-  const context = useContext(UserContext);
+  // const navigate = useNavigate();
+  // const context = useContext(UserContext);
 
-  const logout = e => {
-      context.logout();
-  }
+  // const logout = e => {
+  //     context.logout();
+  // }
 
   return (
     <>
       <Container fluid className="espaciado recuadro-reg-log">
-      <Row>
+        {/* <Row>
           <Col className="cs-logout">
-         
-              <Button color="primary" size= "md" onClick={logout}> 
+              <Button color="primary" size= "md" onClick={logout}>
                 <FiLogOut color="white"
                       style={{
                         marginRight: "10px",
@@ -33,7 +32,7 @@ const ClienteDashboard = (props) => {
                         textAlign: "center",
                       }}/>Cerrar Sesión</Button>
             </Col>
-       </Row>
+       </Row> */}
         <Row>
           <Col xs={12} sm={12} md={12} lg={12} className="alineacion">
             <img src={Logo} width="200" alt="logo" />
@@ -55,7 +54,7 @@ const ClienteDashboard = (props) => {
                   textAlign: "center",
                 }}
               />
-            <p>Nuestros Clientes</p>
+              <p>Nuestros Clientes</p>
             </Link>
           </Col>
           <Col className="alineación textos-dash" xs={6} sm={6} md={6} lg={3}>
@@ -68,7 +67,7 @@ const ClienteDashboard = (props) => {
                   textAlign: "center",
                 }}
               />
-            <p>Estufas y Calderas</p>
+              <p>Estufas y Calderas</p>
             </Link>
           </Col>
           <Col className="alineación textos-dash" xs={6} sm={6} md={6} lg={3}>
@@ -81,7 +80,7 @@ const ClienteDashboard = (props) => {
                   textAlign: "center",
                 }}
               />
-            <p>Ventas de Pellets y Estufas</p>
+              <p>Ventas de Pellets y Estufas</p>
             </Link>
           </Col>
           <Col className="alineación textos-dash" xs={6} sm={6} md={6} lg={3}>
@@ -94,7 +93,7 @@ const ClienteDashboard = (props) => {
                   textAlign: "center",
                 }}
               />
-            <p>Instalación y Mantenciones</p>
+              <p>Instalación y Mantenciones</p>
             </Link>
           </Col>
         </Row>

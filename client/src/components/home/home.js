@@ -28,6 +28,7 @@ const Home = (props) => {
                 if (resp.data.ok) {
                     setUser(resp.data.data);
                     sessionStorage.setItem(SESSION_USER, JSON.stringify(resp.data.data));
+                    Swal.fire("Login", resp.data.message, "success");
                     navigate('/');
                 } else {
                     Swal.fire('Login', resp.data.message, 'error');
@@ -42,7 +43,7 @@ const Home = (props) => {
         setUser(null);
         sessionStorage.clear();
         navigate('/auth');
-    }    
+    }
 
     useEffect(() => {
         if (sessionStorage.getItem(SESSION_USER)) {
@@ -53,8 +54,8 @@ const Home = (props) => {
         }
 
     }, []);
+
     return (
-        
         <UserContext.Provider value={{ user, setUser, login, logout }}>
             <ClienteTop />
             <Routes>
