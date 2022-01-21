@@ -128,6 +128,26 @@ const MantenimientoList = (props) => {
   //             Swal.fire('Error', error.message, 'error'));
   // }, [actualizar]);
 
+  const getName = (info) => {
+    if (info.value) {
+      const cliente = clientes.find(
+        (el) => el.id === info.value
+      );
+      return `${cliente.firstName} ${cliente.lastName}`;
+    }
+    return "";
+  }
+
+  const getProduct = (info) => {
+    if (info.value) {
+      const estufa = estufas.find(
+        (el) => el.id === info.value
+      );
+      return `${estufa.stoveBrand} ${estufa.stoveModel}`;
+    }
+    return "";
+  }
+
   useEffect(() => {
     axios
       .get("/api/mantenciones")
@@ -202,7 +222,7 @@ const MantenimientoList = (props) => {
                 <TextField
                   {...params}
                   variant="outlined"
-                  label={props.value}
+                  label={getName(props)}
                   fullWidth
                 />
               );
@@ -231,7 +251,7 @@ const MantenimientoList = (props) => {
                 <TextField
                   {...params}
                   variant="outlined"
-                  label={props.value}
+                  label={getProduct(props)}
                   fullWidth
                 />
               );

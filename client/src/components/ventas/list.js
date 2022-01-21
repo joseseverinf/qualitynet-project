@@ -117,6 +117,56 @@ const VentasList = (props) => {
             })
     }, [actualizar]);
 
+    const getName = (info) => {
+        if (info.value) {
+            const cliente = clientes.find(
+                (el) => el.id === info.value
+            );
+            return `${cliente.firstName} ${cliente.lastName}`;
+        }
+        return "";
+    }
+
+    const getProduct = (info) => {
+        if (info.value) {
+            const estufa = estufas.find(
+                (el) => el.id === info.value
+            );
+            return `${estufa.stoveBrand} ${estufa.stoveModel}`;
+        }
+        return "";
+    }
+
+
+    const getSalePrice = (data) => {
+        let precio = 0;
+        let discountByClient = 0;
+        let discountBySale = 0;
+
+        if (data.product && data.quantitie) {
+            const _estufas = [...estufas];
+            const _estufa = _estufas.find(
+                (el) => el.id === data.product
+            );
+            const globalPrice = (parseInt(_estufa.stoveUnitPrice) * parseInt(data.quantitie));
+            precio = globalPrice;
+
+            if (data.client) {
+                const _clientes = [...clientes];
+                const _cliente = _clientes.find(
+                    (el) => el.id === data.client
+                );
+                discountByClient = Math.round(globalPrice * parseInt(_cliente.discount) / 100);
+            }
+
+            if (data.discount && data.discount > 0) {
+                discountBySale = Math.round(globalPrice * parseInt(data.discount) / 100);
+            }
+        }
+
+        return precio - discountByClient - discountBySale;
+    }
+
     const columns = useMemo(() => ([
         { title: 'Id', field: "_id", hidden: true, filtering: false },
         {
@@ -133,14 +183,18 @@ const VentasList = (props) => {
                             <TextField
                                 {...params}
                                 variant="outlined"
-                                label={props.value}
+                                label={getName(props)}
                                 fullWidth
                             />
                         );
                     }}
                     onChange={(e, newValue) => {
                         if (newValue) {
-                            props.onChange(newValue._id)
+                            props.onChange(newValue._id);
+                            let _rowData = {...props.rowData};
+                            _rowData['client'] = newValue._id;
+                            _rowData["salePrice"] = getSalePrice(_rowData);
+                            props.onRowDataChange(_rowData);
                         }
                     }}
                 />
@@ -160,25 +214,21 @@ const VentasList = (props) => {
                             <TextField
                                 {...params}
                                 variant="outlined"
-                                label={props.value}
+                                label={getProduct(props)}
                                 fullWidth
                             />
                         );
                     }}
                     onChange={(e, newValue) => {
                         if (newValue) {
-                            props.onChange(newValue._id)
+                            props.onChange(newValue._id);
+                            let _rowData = {...props.rowData};
+                            _rowData['product'] = newValue._id;
+                            _rowData["salePrice"] = getSalePrice(_rowData);
+                            props.onRowDataChange(_rowData);
                         }
                     }}
                 />
-            )
-        },
-        {
-            title: 'Descuento %',
-            field: 'discount',
-            type: 'numeric',
-            editComponent: props => (
-                <TextField id='discount' type="number" label="Descuento" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
             )
         },
         {
@@ -186,7 +236,27 @@ const VentasList = (props) => {
             field: 'quantitie',
             type: 'numeric',
             editComponent: props => (
-                <TextField id='quantitie' type="number" label="Cantidad" variant="outlined" value={props.value} onChange={e => props.onChange(e.target.value)} />
+                <TextField id='quantitie' type="number" label="Cantidad" variant="outlined" value={props.value} onChange={e => {
+                    props.onChange(e.target.value);
+                    let _rowData = {...props.rowData};
+                    _rowData['quantitie'] = e.target.value;
+                    _rowData["salePrice"] = getSalePrice(_rowData);
+                    props.onRowDataChange(_rowData);
+                }} />
+            )
+        },
+        {
+            title: 'Descuento %',
+            field: 'discount',
+            type: 'numeric',
+            editComponent: props => (
+                <TextField id='discount' type="number" label="Descuento" variant="outlined" value={props.value} onChange={e => {
+                    props.onChange(e.target.value);
+                    let _rowData = {...props.rowData};
+                    _rowData['discount'] = e.target.value;
+                    _rowData["salePrice"] = getSalePrice(_rowData);
+                    props.onRowDataChange(_rowData);
+                }} />
             )
         },
         {
@@ -338,10 +408,10 @@ const VentasList = (props) => {
                                     new Promise((resolve, reject) => {
                                         if (newData && Object.keys(newData).length !== 0) {
                                             newData.active = true;
-                                            if(!newData.discount){
+                                            if (!newData.discount) {
                                                 newData.discount = 0;
                                             }
-                                            if(!newData.quantitie){
+                                            if (!newData.quantitie) {
                                                 newData.quantitie = 1;
                                             }
                                             const _clientes = [...clientes];
@@ -353,11 +423,11 @@ const VentasList = (props) => {
                                                 (el) => el.id === newData.client
                                             );
 
-                                            if(parseInt(newData.quantitie) <= parseInt(_estufa.stoveAmount)){
+                                            if (parseInt(newData.quantitie) <= parseInt(_estufa.stoveAmount)) {
                                                 var globalPrice = (parseInt(_estufa.stoveUnitPrice) * parseInt(newData.quantitie));
-                                                var discountByClient = Math.round(globalPrice * parseInt(_cliente.discount)/100);
-                                                var discountBySale = Math.round(globalPrice * parseInt(newData.discount)/100);
-                                                newData.salePrice = globalPrice- discountByClient - discountBySale;
+                                                var discountByClient = Math.round(globalPrice * parseInt(_cliente.discount) / 100);
+                                                var discountBySale = Math.round(globalPrice * parseInt(newData.discount) / 100);
+                                                newData.salePrice = globalPrice - discountByClient - discountBySale;
 
                                                 axios.post('/api/ventas', newData)
                                                     .then(resp => {
@@ -375,7 +445,7 @@ const VentasList = (props) => {
                                                         Swal.fire('Error al crear la Venta', error?.message, 'error');
                                                         resolve();
                                                     });
-                                            }else{
+                                            } else {
                                                 Swal.fire('Error al crear la Venta', 'La cantidad de Estufas a vender supera el Stock disponible', 'error');
                                                 resolve();
                                             }
@@ -383,26 +453,26 @@ const VentasList = (props) => {
                                             resolve();
                                         }
                                     }),
-                                onRowUpdate: (newData, oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        axios.put(`/api/ventas/${newData._id}`, newData)
-                                            .then(resp => {
-                                                if (resp.data.ok) {
-                                                    const dataUpdate = [...ventas];
-                                                    const target = dataUpdate.find((el) => el.id === oldData.tableData.id);
-                                                    const index = dataUpdate.indexOf(target);
-                                                    dataUpdate[index] = newData;
-                                                    setVentas([...dataUpdate]);
-                                                } else {
-                                                    Swal.fire('Error al actualizar la Venta', resp.data.message, 'error');
-                                                }
-                                                resolve();
-                                            }).catch(error => {
-                                                console.log(error);
-                                                Swal.fire('Error al actualizar la Venta', error?.message, 'error');
-                                                resolve();
-                                            });
-                                    }),
+                                // onRowUpdate: (newData, oldData) =>
+                                //     new Promise((resolve, reject) => {
+                                //         axios.put(`/api/ventas/${newData._id}`, newData)
+                                //             .then(resp => {
+                                //                 if (resp.data.ok) {
+                                //                     const dataUpdate = [...ventas];
+                                //                     const target = dataUpdate.find((el) => el.id === oldData.tableData.id);
+                                //                     const index = dataUpdate.indexOf(target);
+                                //                     dataUpdate[index] = newData;
+                                //                     setVentas([...dataUpdate]);
+                                //                 } else {
+                                //                     Swal.fire('Error al actualizar la Venta', resp.data.message, 'error');
+                                //                 }
+                                //                 resolve();
+                                //             }).catch(error => {
+                                //                 console.log(error);
+                                //                 Swal.fire('Error al actualizar la Venta', error?.message, 'error');
+                                //                 resolve();
+                                //             });
+                                //     }),
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         oldData.active = false;
